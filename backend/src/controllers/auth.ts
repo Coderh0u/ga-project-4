@@ -20,7 +20,7 @@ const registerUser = async (req: Request, res: Response) => {
       req.body.username,
       hashPwd,
     ]);
-    res.json({ msg: "User has been created." });
+    res.status(200).json({ status: "ok", msg: "User has been created." });
   } catch (error: any) {
     console.error(error.stack);
     res.status(500).json({ error: "An error occured while creating user." });
@@ -256,5 +256,5 @@ export {
   registerVendor,
   loginVendor,
   deactivateAcc,
-  test
+  test,
 };

@@ -14,7 +14,7 @@ import { validateLogin, validateRegData } from "../validator/auth";
 import validation from "../middleware/validChecker";
 import {
   authNorm,
-  authUser,
+  authUser, 
   authModerator,
   authVendor,
   // may shift to somewhere else
@@ -29,7 +29,8 @@ router.put(
   validation,
   registerModerator
 );
-router.post("/login/moderator", validateLogin, validation, loginModerator);
+
+router.post("/login/moderator", validateLogin, validation, loginModerator, );
 
 router.put("/register/vendor", validateRegData, validation, registerVendor);
 router.post("/login/vendor", validateLogin, validation, loginVendor);
