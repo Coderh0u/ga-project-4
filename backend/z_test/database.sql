@@ -17,6 +17,8 @@ CREATE TABLE public.product_database (
 	product_photo text NULL,
 	is_secondhand bool NULL default false,
 	created_date date NOT NULL DEFAULT CURRENT_DATE,
+	creator_vendor uuid REFERENCES vendors(id),
+	creator_user uuid REFERENCES users(id),
 	CONSTRAINT product_database_prod_category_fkey FOREIGN KEY (prod_category) REFERENCES public.product_category(id)
 );
 
@@ -72,11 +74,9 @@ CREATE TABLE public.vendors (
 	id uuid NOT NULL DEFAULT uuid_generate_v4(),
 	username varchar(255) not null,
 	hash_pwd varchar(255) not null,
-	product_id uuid NULL,
   vendor_name varchar(255) NOT NULL,
 	is_active bool default true,
 	CONSTRAINT vendors_pkey PRIMARY KEY (id),
-	CONSTRAINT vendors_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.product_database(id)
 );
 
 CREATE TABLE public.wallet (
@@ -92,7 +92,6 @@ CREATE TABLE public.users (
 	id uuid NOT NULL DEFAULT uuid_generate_v4(),
 	username varchar(255) NOT NULL,
 	hash_pwd varchar(255) NOT NULL,
-	selling_prod_id uuid NULL,
 	wallet_id uuid NULL,
 	shop_cart_id uuid NULL,
 	is_active bool NULL DEFAULT true,
@@ -103,7 +102,6 @@ CREATE TABLE public.users (
 	CONSTRAINT users_message_id_fkey FOREIGN KEY (message_id) REFERENCES public.messages(id),
 	CONSTRAINT users_order_history_fkey FOREIGN KEY (order_history) REFERENCES public.order_history(id),
 	CONSTRAINT users_reviews_fkey FOREIGN KEY (reviews) REFERENCES public.reviews(id),
-	CONSTRAINT users_selling_prod_id_fkey FOREIGN KEY (selling_prod_id) REFERENCES public.product_database(id),
 	CONSTRAINT users_shop_cart_id_fkey FOREIGN KEY (shop_cart_id) REFERENCES public.shopping_cart(id),
 	CONSTRAINT users_wallet_id_fkey FOREIGN KEY (wallet_id) REFERENCES public.wallet(id)
 );

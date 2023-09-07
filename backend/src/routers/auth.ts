@@ -8,6 +8,7 @@ import {
   registerVendor,
   loginVendor,
   deactivateAcc,
+  test,
 } from "../controllers/auth";
 import { validateLogin, validateRegData } from "../validator/auth";
 import validation from "../middleware/validChecker";
@@ -19,19 +20,21 @@ import {
   // may shift to somewhere else
 } from "../middleware/auth";
 
-router.put("/register/user", validation, validateRegData, registerUser);
-router.post("/login/user", validateLogin, loginUser);
+router.put("/register/user", validateRegData, validation, registerUser);
+router.post("/login/user", validateLogin, validation, loginUser);
 
 router.put(
   "/register/moderator",
-  validation,
   validateRegData,
+  validation,
   registerModerator
 );
-router.post("/login/moderator", validateLogin, loginModerator);
+router.post("/login/moderator", validateLogin, validation, loginModerator);
 
-router.put("/register/vendor", validation, validateRegData, registerVendor);
-router.post("/login/vendor", validateLogin, loginVendor);
+router.put("/register/vendor", validateRegData, validation, registerVendor);
+router.post("/login/vendor", validateLogin, validation, loginVendor);
 
 router.patch("/deactivate_account", authNorm, deactivateAcc);
+
+router.get("/test", authNorm, test);
 export default router;

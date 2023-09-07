@@ -6,6 +6,7 @@ import helmet from "helmet";
 // routers go here
 import auth from "./src/routers/auth";
 import product from "./src/routers/product";
+import moderator from "./src/routers/mod_log";
 
 const app = express();
 
@@ -16,6 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", auth);
 app.use("/products", product);
+
+app.use("/moderator", moderator);
+
+app.use("/orders", orders)
 
 const PORT = process.env.PORT || 5004;
 app.listen(PORT, () => {

@@ -221,21 +221,31 @@ const loginVendor = async (req: Request, res: Response) => {
   }
 };
 
+// fix this shit
 const deactivateAcc = async (req: Request, res: Response) => {
   try {
-    console.log(req.decoded);
-    if (req.decoded.role === "user") {
-      await pool.query("UPDATE users SET is_active = false WHERE id=$1", [
-        req.decoded.data.id,
-      ]);
-      res.json("Account deactivated");
+    const deactAcc = await pool.query(
+      "UPDATE users SET is_active = false WHERE id=$1",
+      [req.decoded.data.id]
+    );
+    if (deactAcc.rowCount === 1) {
+      res.status(200).json({ status: "ok", msg: "Account deactivated" });
+    } else {
+      res
+        .status(400)
+        .json({ status: "error", msg: "Unable to deactivate account." });
     }
   } catch (error: any) {
     console.error(error.stack);
-    res
-      .status(500)
-      .json({ error: "An error occured while deactivating account." });
+    res.status(500).json({
+      status: "error",
+      msg: "An error occured while deactivating account.",
+    });
   }
+};
+
+const test = async (req: Request, res: Response) => {
+  res.json(req.decoded);
 };
 
 export {
@@ -246,4 +256,5 @@ export {
   registerVendor,
   loginVendor,
   deactivateAcc,
+  test
 };
