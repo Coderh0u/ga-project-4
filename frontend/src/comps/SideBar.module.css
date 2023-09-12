@@ -2,11 +2,17 @@
   height: 100%;
   width: 200px;
   position: fixed;
-  z-index: 1000000000000;
+  z-index: 1;
   left: 0;
   background-color: #c20f08;
   overflow-x: hidden;
-  padding-top: 60px;
-
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
   color: whitesmoke;
+}
+
+.options {
+  padding-top: 3px;
 }

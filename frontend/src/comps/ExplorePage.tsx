@@ -11,27 +11,49 @@ const ExplorePage = () => {
   const [criteria, setCriteria] = useState([]);
   const [filter, setFilter] = useState<any[]>([]);
   const getData = async () => {
-    const res = await fetchData("/products/all", "POST", {
-      criteria: criteria,
-      limit: undefined,
-    });
-    if (res.ok) {
-      setItems(res.data);
+    try {
+      const res = await fetchData("/products/all", "POST", {
+        limit: undefined,
+        filter: filter.length ? filter : null,
+      });
+      console.log(res);
+      if (res.ok) {
+        console.log("getData pass");
+        console.log("filter", filter);
+        setItems(res.data);
+      }
+    } catch (error: any) {
+      console.error("error: ", error);
     }
   };
 
   useEffect(() => {
+    console.log("filter");
     getData();
-  }, []);
+  }, [filter]);
   return (
     <>
-      <Sidebar setCriteria={setCriteria} filter={filter}></Sidebar>
+      <Sidebar
+        setCriteria={setCriteria}
+        setFilter={setFilter}
+        criteria={criteria}
+        filter={filter}
+      ></Sidebar>
       <div className={styles.container}>
         {items.map((item: any, index: number) => (
           <div key={index} className={styles.itemCard}>
             {<ItemCard>{item}</ItemCard>}
           </div>
         ))}
+        {/* delete this button */}
+        <button
+          style={{ color: "red", height: "40px" }}
+          onClick={() => {
+            filter.push("one");
+          }}
+        >
+          push filter
+        </button>
       </div>
     </>
   );

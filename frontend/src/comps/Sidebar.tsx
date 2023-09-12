@@ -6,6 +6,7 @@ import useFetch from "../custom_hooks/useFetch";
 const Sidebar = (props: any) => {
   const fetchData = useFetch();
   const [cats, setCats] = useState([]); // short for categories
+
   // pull all categories from backend
   const getCat = async () => {
     const res = await fetchData("/products/category/all", "GET");
@@ -16,14 +17,11 @@ const Sidebar = (props: any) => {
   // functifon to handle checkbox
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      props.filter.push(e.target.value);
+      props.setFilter((prevFilters: any) => [...prevFilters, e.target.value])
     } else {
-      const idx = props.filter.findIndex(
-        (elem: string) => elem === e.target.value
+      props.setFilter((prevFilter: any) =>
+        prevFilter.filter((elem: string) => elem !== e.target.value)
       );
-      if (idx) {
-        props.filter.splice(idx, 1);
-      }
     }
   };
 
@@ -32,14 +30,21 @@ const Sidebar = (props: any) => {
   }, []);
   return (
     <div className={styles.sidemenu}>
-    <h2>Categories:</h2>
-  
+      <h2>Categories:</h2>
       {cats.map((item: any, index: number) => (
-        <label key={index}>
+        <label key={index} className={styles.options}>
           <input type="checkbox" value={item.id} onChange={handleChange} />
           {item.category_name}
         </label>
       ))}
+      {/* delete this button */}
+      <button
+        onClick={() => {
+          console.log(props.filter);
+        }}
+      >
+        FILTER
+      </button>
     </div>
   );
 };

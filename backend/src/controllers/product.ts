@@ -25,6 +25,7 @@ const createCategory = async (req: Request, res: Response) => {
 const getAllCat = async (req: Request, res: Response) => {
   try {
     const allCat = await pool.query("SELECT * FROM product_category");
+
     if (allCat.rowCount > 0) {
       res.status(200).json(allCat.rows);
     } else {
@@ -141,62 +142,86 @@ const insertProduct = async (req: Request, res: Response) => {
 };
 
 const getAllProduct = async (req: Request, res: Response) => {
-  const criteria: number[] = req.body.criteria; //maybe neeed to patch this
+  // const criteria: number[] = req.body.criteria; //maybe neeed to patch this
 
   try {
     // no filter criteria, get ALL products in database
-    if (criteria.length === 0) {
-      const allProduct = await pool.query(
-        "SELECT product_database.product_name, product_database.price, product_database.prod_version, product_database.product_photo, product_database.is_secondhand, product_database.creator_vendor, product_database.creator_user, product_category.category_name FROM product_database JOIN product_category on product_database.prod_category = product_category.id" +
-          (req.body.limit ? " ORDER BY RANDOM() " : "") +
-          (req.body.limit ? " LIMIT $1" : ""),
-        req.body.limit ? [req.body.limit] : []
-      );
-      if (allProduct.rowCount) {
-        res.json(allProduct.rows);
-      } else {
-        res.status(404).json({ status: "error", msg: "No products found" });
-      }
+    // if (criteria.length === 0) {
+    // const allProduct = await pool.query(
+    //   "SELECT product_database.product_name, product_database.price, product_database.prod_version, product_database.product_photo, product_database.is_secondhand, product_database.creator_vendor, product_database.creator_user, product_category.category_name FROM product_database JOIN product_category on product_database.prod_category = product_category.id" +
+    //     (req.body.limit ? " ORDER BY RANDOM() " : "") + // for the landing page
+    //     (req.body.limit ? " LIMIT $1" : "") + // for the landing page
+    //     (req.body.filter ? " WHERE product_category.id = ALL($1) " : ""), // filter by category
+    //   [
+    //     req.body.limit ? [req.body.limit] : [],
+    //     req.body.filter ? [req.body.filter] : [],
+    //   ]
+    // );
+    let queryString = `SELECT product_database.product_name, product_database.price, product_database.prod_version, product_database.product_photo, product_database.is_secondhand, product_database.creator_vendor, product_database.creator_user, product_category.category_name FROM product_database  JOIN product_category ON product_database.prod_category = product_category.id`;
+    if (req.body.limit) {
+      queryString += ` ORDER BY RANDOM() LIMIT $1::integer `;
     }
-    // only pull from a certain product category
-    if (criteria.length === 1 && criteria[0] === 1) {
-      const allProduct = await pool.query(
-        "SELECT *  FROM product_database JOIN product_category on product_database.prod_category = product_category.id WHERE product_category.id = ALL($1)",
-        [req.body.productCategory]
-      );
-      if (allProduct.rowCount) {
-        res.json(allProduct.rows);
-      } else {
-        res.status(404).json({ status: "error", msg: "No products found" });
-      }
-    }
-    // only pull from a certain product vendor
-    if (criteria.length === 1 && criteria[0] === 2) {
-      const allProduct = await pool.query(
-        "SELECT *  FROM product_database WHERE creator_vendor=$1",
-        [req.body.vendorId]
-      );
-      if (allProduct.rowCount) {
-        res.json(allProduct.rows);
-      } else {
-        res.status(404).json({ status: "error", msg: "No products found" });
-      }
-    }
-    // only pull from a category of products from a certain vendor
-    if (criteria.length === 2) {
-      const vendorid: string = req.body.vendorId;
-      const catid: string = req.body.productCategory;
+    if (req.body.filter) {
+      queryString += ` WHERE product_category.id = ANY($1::uuid[])`;
+    } // i can do this because i know my frontend will never have an instance where limit and filter exists tgt
+    const queryParams = [];
 
-      const allProduct = await pool.query(
-        `SELECT *  FROM product_database WHERE product_database.creator_vendor=$1 AND product_database.prod_category=$2`,
-        [vendorid, catid]
-      );
-      if (allProduct.rowCount) {
-        res.json(allProduct.rows);
-      } else {
-        res.status(404).json({ status: "error", msg: "No products found" });
-      }
+    if (req.body.limit) {
+      queryParams.push(req.body.limit);
     }
+
+    if (req.body.filter) {
+      queryParams.push(req.body.filter);
+    }
+    console.log("limit", req.body.limit);
+    console.log("queryparams", queryParams);
+    const allProduct = await pool.query(queryString, queryParams);
+
+    if (allProduct.rowCount) {
+      res.json(allProduct.rows);
+    } else {
+      res.status(404).json({ status: "error", msg: "No products found" });
+    }
+    // }
+    // only pull from a certain product category
+    // if (criteria.length === 1 && criteria[0] === 1) {
+    //   const allProduct = await pool.query(
+    //     "SELECT *  FROM product_database JOIN product_category on product_database.prod_category = product_category.id WHERE product_category.id = ALL($1)",
+    //     [req.body.productCategory]
+    //   );
+    //   if (allProduct.rowCount) {
+    //     res.json(allProduct.rows);
+    //   } else {
+    //     res.status(404).json({ status: "error", msg: "No products found" });
+    //   }
+    // }
+    // // only pull from a certain product vendor
+    // if (criteria.length === 1 && criteria[0] === 2) {
+    //   const allProduct = await pool.query(
+    //     "SELECT *  FROM product_database WHERE creator_vendor=$1",
+    //     [req.body.vendorId]
+    //   );
+    //   if (allProduct.rowCount) {
+    //     res.json(allProduct.rows);
+    //   } else {
+    //     res.status(404).json({ status: "error", msg: "No products found" });
+    //   }
+    // }
+    // // only pull from a category of products from a certain vendor
+    // if (criteria.length === 2) {
+    //   const vendorid: string = req.body.vendorId;
+    //   const catid: string = req.body.productCategory;
+
+    //   const allProduct = await pool.query(
+    //     `SELECT *  FROM product_database WHERE product_database.creator_vendor=$1 AND product_database.prod_category=$2`,
+    //     [vendorid, catid]
+    //   );
+    //   if (allProduct.rowCount) {
+    //     res.json(allProduct.rows);
+    //   } else {
+    //     res.status(404).json({ status: "error", msg: "No products found" });
+    //   }
+    // }
   } catch (error: any) {
     console.error(error.stack);
     res.status(500).json({ error: "An error occured while getting products." });

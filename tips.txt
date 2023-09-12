@@ -1,0 +1,20 @@
+link the explore page to somewhere on log in
+maybe on log in useNavigate to /explore
+
+code out item card
+
+
+code out /user
+include CRUD product
+include CRUD categories
+
+res.data.url => url to the picture full scale
+res.data.thumb.url => thumbnail size
+res.data.medium.url => medium size?
+res.success => 200/ other number
+
+if (req.body.filter) {
+  const filterIndex = queryParams.length + 1; // Use a unique index
+  queryString += ` WHERE product_category.id = ANY($${filterIndex}::uuid[])`;
+  queryParams.push(req.body.filter);
+}
