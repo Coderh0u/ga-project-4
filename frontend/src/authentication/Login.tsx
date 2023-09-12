@@ -21,8 +21,11 @@ const LoginPage = (props: any) => {
     });
     if (res.ok) {
       if (res.data.accessToken) {
-        // auth.setAccessToken(res.data.accessToken);
+        console.log(username);
+        console.log(password);
+        console.log(props.loginStatus);
         props.setShowLogin(false);
+        props.setLoginStatus(true);
         // react router something something something
       } else {
         // displaying error messages
@@ -48,16 +51,14 @@ const LoginPage = (props: any) => {
       {ReactDOM.createPortal(
         <div className={styles.backdrop}>
           <div className={styles.modal}>
-            {/* <button
+            <button
               className={styles.closeButton}
               onClick={() => {
                 props.setShowLogin(false);
               }}
             >
-              <img src="../../picture/close.jpg" />
-            </button> */}
-            {/* <div className={styles.profPic}>BTBT</div>
-            <div className={styles.welcomeText}>Welcome to BTBT</div> */}
+              <img src="../../images/close.png" className={styles.close} />
+            </button>
             <div className={styles.loginDetails}>
               <div>
                 <div>Username:</div>
@@ -104,6 +105,7 @@ const LoginPage = (props: any) => {
               <button
                 onClick={() => {
                   loginClick();
+                  console.log("clicked");
                 }}
               >
                 Log In

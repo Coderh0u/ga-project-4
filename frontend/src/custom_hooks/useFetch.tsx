@@ -2,7 +2,7 @@ const useFetch = () => {
   const fetchData = async (
     endpoint: string,
     method: string,
-    body: object,
+    body?: object,
     token?: string
   ) => {
     const res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
@@ -13,7 +13,6 @@ const useFetch = () => {
       },
       body: JSON.stringify(body),
     });
-    // console.log(res)
     const data = await res.json();
 
     let returnValue: FetchReturn;
@@ -30,11 +29,11 @@ const useFetch = () => {
       } else if (data?.status === "error") {
         returnValue = { ok: false, data: data.msg };
       } else {
-        console.log(data);
+        console.log("hi", data);
         returnValue = { ok: false, data: "An error occured" };
       }
     }
-    // console.log(returnValue);
+
     return returnValue;
   };
 

@@ -87,13 +87,13 @@ const insertProduct = async (req: Request, res: Response) => {
     // if uploader is a vendor
     if (req.decoded.role === "vendor") {
       const newProduct = await pool.query(
-        "INSERT INTO product_database(product_name, price, prod_version, prod_category, prod_demo, product_photo, creator_vendor) VALUES($1, $2, $3, $4, $5, $6, $7)",
+        "INSERT INTO product_database(product_name, price, prod_version, prod_category, prod_desc, product_photo, creator_vendor) VALUES($1, $2, $3, $4, $5, $6, $7)",
         [
           req.body.productName,
           req.body.price,
           req.body.productVersion || null,
           req.body.productCategory || null, // reminder, this is a foreign key
-          req.body.productDemo || null,
+          req.body.productDesc || null,
           req.body.productPhoto || null,
           req.decoded.data.id,
         ]
@@ -109,13 +109,13 @@ const insertProduct = async (req: Request, res: Response) => {
     // if uploader is a user
     else if (req.decoded.role === "user") {
       const newProduct = await pool.query(
-        "INSERT INTO product_database(product_name, price, prod_version, prod_category, prod_demo, product_photo, is_secondhand, creator_user) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+        "INSERT INTO product_database(product_name, price, prod_version, prod_category, prod_de, product_photo, is_secondhand, creator_user) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
         [
           req.body.productName,
           req.body.price,
           req.body.productVersion || null,
           req.body.productCategory || null, // reminder, this is a foreign key, need to be settled by frontend
-          req.body.productDemo || null,
+          req.body.productDe || null,
           req.body.productPhoto || null,
           req.body.secondHand,
           req.decoded.data.id,
@@ -146,7 +146,13 @@ const getAllProduct = async (req: Request, res: Response) => {
   try {
     // no filter criteria, get ALL products in database
     if (criteria.length === 0) {
-      const allProduct = await pool.query("SELECT *  FROM product_database");
+      // const allProduct = await pool.query("SELECT *  FROM product_database");
+      const allProduct = await pool.query(
+        "SELECT product_database.product_name, product_database.price, product_database.prod_version, product_database.product_photo, product_database.is_secondhand, product_database.creator_vendor, product_database.creator_user, product_category.category_name FROM product_database JOIN product_category on product_database.prod_category = product_category.id" +
+          (req.body.limit ? " ORDER BY RANDOM() " : "") +
+          (req.body.limit ? " LIMIT $1" : ""),
+        [req.body.limit || null]
+      );
       if (allProduct.rowCount) {
         res.json(allProduct.rows);
       } else {
@@ -209,13 +215,13 @@ const editProduct = async (req: Request, res: Response) => {
       );
       if (req.decoded.data.id === prod.rows[0].creator_user) {
         const updatedProduct = await pool.query(
-          "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, prod_demo=$5, product_photo=$6, is_secondhand=$7 WHERE id=$8",
+          "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, desc=$5, product_photo=$6, is_secondhand=$7 WHERE id=$8",
           [
             req.body.productName || prod.rows[0].product_name,
             req.body.price || prod.rows[0].price,
             req.body.productVersion || prod.rows[0].prod_version,
             req.body.productCategory || prod.rows[0].prod_category,
-            req.body.productDemo || prod.rows[0].prod_demo,
+            req.body.Desc || prod.rows[0].desc,
             req.body.productPhoto || prod.rows[0].product_photo,
             req.body.secondHand || prod.rows[0].is_secondhand,
             req.body.productId,
@@ -246,13 +252,13 @@ const editProduct = async (req: Request, res: Response) => {
       );
       if (req.decoded.data.id === prod.rows[0].creator_vendor) {
         const updatedProduct = await pool.query(
-          "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, prod_demo=$5, product_photo=$6 WHERE id=$7",
+          "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, desc=$5, product_photo=$6 WHERE id=$7",
           [
             req.body.productName || prod.rows[0].product_name,
             req.body.price || prod.rows[0].price,
             req.body.productVersion || prod.rows[0].prod_version,
             req.body.productCategory || prod.rows[0].prod_category,
-            req.body.productDemo || prod.rows[0].prod_demo,
+            req.body.productDesc || prod.rows[0].desc,
             req.body.productPhoto || prod.rows[0].product_photo,
             req.body.productId,
           ]
@@ -280,13 +286,13 @@ const editProduct = async (req: Request, res: Response) => {
         [req.body.productId]
       );
       const updatedProduct = await pool.query(
-        "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, prod_demo=$5, product_photo=$6, is_secondhand=$7 WHERE id=$8",
+        "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, desc=$5, product_photo=$6, is_secondhand=$7 WHERE id=$8",
         [
           req.body.productName || prod.rows[0].product_name,
           req.body.price || prod.rows[0].price,
           req.body.productVersion || prod.rows[0].prod_version,
           req.body.productCategory || prod.rows[0].prod_category,
-          req.body.productDemo || prod.rows[0].prod_demo,
+          req.body.productDesc || prod.rows[0].desc,
           req.body.productPhoto || prod.rows[0].product_photo,
           req.body.secondHand || prod.rows[0].is_secondhand,
           req.body.productId,
