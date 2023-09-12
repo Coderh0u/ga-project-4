@@ -1,14 +1,24 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./NavBar.module.css";
 
 const Navbar = (props: any) => {
   return (
-    <header className={styles.navbar}>
+    <header className="container">
       <div className={styles.navlinks}>
-        <NavLink className={styles.links} to="/">
-          <span className={styles.title}>HOU-ASSEMBLY</span>
+        <NavLink to="/">
+          <img src="../../images/title.png" className={styles.title} />
         </NavLink>
+
+        {props.loginStatus ? (
+          <NavLink className={styles.links} to="/explore">
+            Shop
+          </NavLink>
+        ) : (
+          <NavLink className={styles.links} to="/">
+            <p onClick={props.setShowLogin}>Shop</p>
+          </NavLink>
+        )}
         {props.loginStatus ? (
           <NavLink to="/user">
             <img src="../../images/user-icon.png" className={styles.icon} />
@@ -22,15 +32,21 @@ const Navbar = (props: any) => {
             />
           </NavLink>
         )}
-        {/* <NavLink to="/cart">
-          <img src="../../images/cart-icon.png" className={styles.icon} />
-        </NavLink> */}
+
         {props.loginStatus ? (
           <NavLink to="/cart">
             <img src="../../images/cart-icon.png" className={styles.icon} />
           </NavLink>
         ) : (
-          ""
+          <NavLink to="/">
+            <p
+              onClick={() => {
+                props.setShowRegister(true);
+              }}
+            >
+              Register
+            </p>
+          </NavLink>
         )}
       </div>
     </header>

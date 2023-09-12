@@ -3,17 +3,18 @@ import ReactDOM from "react-dom";
 // import AuthContext from "../context/authentication";
 import useFetch from "../custom_hooks/useFetch";
 import styles from "./Modal.module.css";
+import { useNavigate } from "react-router-dom";
 
 const fetchData = useFetch();
 
 const LoginPage = (props: any) => {
-  // const auth = useContext(AuthContext);
   const [role, setRole] = useState("user");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error1, setError1] = useState("");
   const [error2, setError2] = useState("");
   const authRoot = document.querySelector<HTMLDivElement>("#auth-root")!;
+  const navigate = useNavigate();
   const loginClick = async () => {
     const res = await fetchData(`/auth/login/${role}`, "POST", {
       username,
@@ -26,7 +27,7 @@ const LoginPage = (props: any) => {
         console.log(props.loginStatus);
         props.setShowLogin(false);
         props.setLoginStatus(true);
-        // react router something something something
+        navigate("/explore");
       } else {
         // displaying error messages
         console.log(res.data);
@@ -93,6 +94,7 @@ const LoginPage = (props: any) => {
                 )}
               </div>
               <div>Choose an account type:</div>
+              <br />
               <select
                 onChange={(e) => {
                   setRole(e.target.value);
@@ -109,6 +111,15 @@ const LoginPage = (props: any) => {
                 }}
               >
                 Log In
+              </button>
+              <br />
+              <br />
+              <button
+                onClick={() => {
+                  props.setShowRegister(true);
+                }}
+              >
+                Register
               </button>
             </div>
           </div>

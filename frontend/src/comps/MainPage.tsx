@@ -26,7 +26,6 @@ const MainPage = (props: any) => {
   return (
     <>
       <img src="../images/banner.png" className={styles.banner} />
-
       {items.length > 0 && (
         <Carousel
           items={items}

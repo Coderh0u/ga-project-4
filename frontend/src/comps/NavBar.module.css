@@ -18,21 +18,26 @@
 }
 
 .title {
-  color: red;
+  height: 44px;
   opacity: 80%;
+  left: 1rem;
 }
 
 .icon {
   width: 36px;
   height: 36px;
+  margin-right: 1rem;
 }
 
 .navlinks {
   height: 100%;
+  width: 100%;
   list-style: none;
   display: flex;
   padding: 0;
   margin: 0;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  position: relative;
 }
+

@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import useFetch from "../custom_hooks/useFetch";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ItemCard from "./ItemCard";
 
 const Carousel = (props: any) => {
   const settings = {
@@ -28,15 +29,9 @@ const Carousel = (props: any) => {
             key={index}
             onClick={() => {
               divertToLogin();
-              console.log("prod clicked");
-              console.log(props.showLogin);
             }}
           >
-            <img src={item.product_photo} />
-            <h3>{item.product_name}</h3>
-            <p>${item.price}</p>
-            <p>Category: {item.category_name}</p>
-            <p>Version: {item.prod_version}</p>
+            {<ItemCard>{item}</ItemCard>}
           </div>
         ))}
       </Slider>

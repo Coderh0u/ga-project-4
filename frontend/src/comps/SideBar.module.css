@@ -1,0 +1,12 @@
+.sidemenu {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1000000000000;
+  left: 0;
+  background-color: #c20f08;
+  overflow-x: hidden;
+  padding-top: 60px;
+
+  color: whitesmoke;
+}

@@ -109,7 +109,7 @@ const insertProduct = async (req: Request, res: Response) => {
     // if uploader is a user
     else if (req.decoded.role === "user") {
       const newProduct = await pool.query(
-        "INSERT INTO product_database(product_name, price, prod_version, prod_category, prod_de, product_photo, is_secondhand, creator_user) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+        "INSERT INTO product_database(product_name, price, prod_version, prod_category, prod_desc, product_photo, is_secondhand, creator_user) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
         [
           req.body.productName,
           req.body.price,
@@ -146,12 +146,11 @@ const getAllProduct = async (req: Request, res: Response) => {
   try {
     // no filter criteria, get ALL products in database
     if (criteria.length === 0) {
-      // const allProduct = await pool.query("SELECT *  FROM product_database");
       const allProduct = await pool.query(
         "SELECT product_database.product_name, product_database.price, product_database.prod_version, product_database.product_photo, product_database.is_secondhand, product_database.creator_vendor, product_database.creator_user, product_category.category_name FROM product_database JOIN product_category on product_database.prod_category = product_category.id" +
           (req.body.limit ? " ORDER BY RANDOM() " : "") +
           (req.body.limit ? " LIMIT $1" : ""),
-        [req.body.limit || null]
+        req.body.limit ? [req.body.limit] : []
       );
       if (allProduct.rowCount) {
         res.json(allProduct.rows);
@@ -162,7 +161,7 @@ const getAllProduct = async (req: Request, res: Response) => {
     // only pull from a certain product category
     if (criteria.length === 1 && criteria[0] === 1) {
       const allProduct = await pool.query(
-        "SELECT *  FROM product_database JOIN product_category on product_database.prod_category = product_category.id WHERE product_category.id = $1",
+        "SELECT *  FROM product_database JOIN product_category on product_database.prod_category = product_category.id WHERE product_category.id = ALL($1)",
         [req.body.productCategory]
       );
       if (allProduct.rowCount) {
