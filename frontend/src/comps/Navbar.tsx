@@ -4,7 +4,7 @@ import styles from "./NavBar.module.css";
 
 const Navbar = (props: any) => {
   return (
-    <header className="container">
+    <header>
       <div className={styles.navlinks}>
         <NavLink to="/">
           <img src="../../images/title.png" className={styles.title} />

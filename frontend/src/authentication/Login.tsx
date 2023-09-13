@@ -113,9 +113,10 @@ const LoginPage = (props: any) => {
                 Log In
               </button>
               <br />
-              <br />
+
               <button
                 onClick={() => {
+                  props.setShowLogin(false);
                   props.setShowRegister(true);
                 }}
               >

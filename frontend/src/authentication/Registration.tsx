@@ -71,16 +71,14 @@ const RegistrationPage = (props: any) => {
       {ReactDOM.createPortal(
         <div className={styles.backdrop}>
           <div className={styles.modal}>
-            {/* <button
+            <button
               className={styles.closeButton}
               onClick={() => {
-                props.setShowLogin(false);
+                props.setShowRegister(false);
               }}
             >
-              <img src="../../picture/close.jpg" />
-            </button> */}
-            {/* <div className={styles.profPic}>BTBT</div>
-            <div className={styles.welcomeText}>Welcome to BTBT</div> */}
+              <img src="../../images/close.png" className={styles.close} />
+            </button>
             <div className={styles.loginDetails}>
               <div>
                 <div>Username:</div>

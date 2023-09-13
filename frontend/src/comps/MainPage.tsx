@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../custom_hooks/useFetch";
-import LoginPage from "../authentication/Login";
-import RegistrationPage from "../authentication/Registration";
 import styles from "./MainPage.module.css";
 import Carousel from "./Slider";
 
