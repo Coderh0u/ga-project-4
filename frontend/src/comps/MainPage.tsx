@@ -11,7 +11,6 @@ const MainPage = (props: any) => {
 
   const getProducts = async () => {
     const res = await fetchData("/products/all", "POST", {
-      criteria: [],
       limit: 10,
     });
     if (res.ok) {
