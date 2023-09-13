@@ -15,6 +15,7 @@ const ExplorePage = () => {
       const res = await fetchData("/products/all", "POST", {
         limit: undefined,
         filter: filter.length ? filter : null,
+        criteria: criteria.length ? criteria : null,
       });
       console.log(res);
       if (res.ok) {
@@ -28,9 +29,8 @@ const ExplorePage = () => {
   };
 
   useEffect(() => {
-    console.log("filter");
     getData();
-  }, [filter]);
+  }, [filter, criteria]);
   return (
     <>
       <Sidebar
@@ -45,15 +45,6 @@ const ExplorePage = () => {
             {<ItemCard>{item}</ItemCard>}
           </div>
         ))}
-        {/* delete this button */}
-        <button
-          style={{ color: "red", height: "40px" }}
-          onClick={() => {
-            filter.push("one");
-          }}
-        >
-          push filter
-        </button>
       </div>
     </>
   );

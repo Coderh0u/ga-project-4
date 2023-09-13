@@ -10,6 +10,7 @@
 .links {
   margin: 0 1rem;
   width: 10rem;
+  padding-right: 10px;
 }
 
 .navbar a {
@@ -21,6 +22,9 @@
   height: 44px;
   opacity: 80%;
   left: 1rem;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .icon {
@@ -37,7 +41,7 @@
   padding: 0;
   margin: 0;
   align-items: center;
-  justify-content: space-between;
+  justify-content: right;
   position: relative;
 }
 
