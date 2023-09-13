@@ -33,9 +33,13 @@ const AddProduct = (props: any) => {
     const res = await fetchData("/products/category/all", "GET");
     if (res.ok) {
       setCatRange(res.data);
-      console.log(catRange);
     }
   };
+  const handleCatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCat(event.target.value);
+    console.log(cat);
+  };
+
   useEffect(() => {
     getCat();
   }, []);
@@ -44,6 +48,7 @@ const AddProduct = (props: any) => {
       {ReactDOM.createPortal(
         <div className={styles.backdrop}>
           <div className={styles.modal}>
+            {/* close modal */}
             <button
               className={styles.closeButton}
               onClick={() => {
@@ -52,7 +57,9 @@ const AddProduct = (props: any) => {
             >
               <img src="../../images/close.png" className={styles.close} />
             </button>
+            {/* image */}
             <div className={`container ${styles.file}`}></div>
+            {/* name */}
             <div className={`container ${styles.details}`}>
               <div className={`row`}>
                 <h5 className="col-md-4">Product Name:</h5>
@@ -61,9 +68,11 @@ const AddProduct = (props: any) => {
                   type="text"
                   onChange={(e) => {
                     setName(e.target.value);
+                    console.log(name);
                   }}
                 />
               </div>
+              {/* price */}
               <div className="row">
                 <h5 className="col-md-4">Price:</h5>
                 <div className="col-md-8">
@@ -80,9 +89,27 @@ const AddProduct = (props: any) => {
                   </div>
                 </div>
               </div>
+              {/* category */}
               <div className="row">
                 <h5 className="col-md-4">Category: </h5>
-                {/* <select><option value=</select> */}
+                <select className="col-md-8" onChange={handleCatChange}>
+                  {catRange.map((item: any, idx: number) => (
+                    <option key={idx} value={item.id}>
+                      {item.category_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* description */}
+              <div className="row">
+                <h5 className="col-md-4">Description: </h5>
+                <textarea
+                  className={`col-md-8 `}
+                  rows={10}
+                  onChange={(e) => {
+                    setDesc(e.target.value);
+                  }}
+                />
               </div>
             </div>
           </div>
