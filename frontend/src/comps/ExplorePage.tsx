@@ -17,10 +17,7 @@ const ExplorePage = () => {
         filter: filter.length ? filter : null,
         criteria: criteria.length ? criteria : null,
       });
-      console.log(res);
       if (res.ok) {
-        console.log("getData pass");
-        console.log("filter", filter);
         setItems(res.data);
       }
     } catch (error: any) {

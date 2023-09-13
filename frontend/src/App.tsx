@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import AuthContext from "./context/authentication";
 import LoginPage from "./authentication/Login";
 import RegistrationPage from "./authentication/Registration";
 import MainPage from "./comps/MainPage";
 import Navbar from "./comps/Navbar";
 import ExplorePage from "./comps/ExplorePage";
+import User from "./comps/User";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,7 +21,7 @@ function App() {
           loginStatus={loginStatus}
           setShowRegister={setShowRegister}
         ></Navbar>
-        
+
         <br />
 
         <Routes>
@@ -35,27 +36,28 @@ function App() {
             }
           ></Route>
           <Route path="/explore" element={<ExplorePage></ExplorePage>}></Route>
+          <Route path="/user" element={<User></User>}></Route>
         </Routes>
-      </AuthContext.Provider>
 
-      {showRegister && (
-        <RegistrationPage
-          showLogin={showLogin}
-          setShowLogin={setShowLogin}
-          showRegister={showRegister}
-          setShowRegister={setShowRegister}
-        ></RegistrationPage>
-      )}
-      {showLogin && (
-        <LoginPage
-          showLogin={showLogin}
-          setShowLogin={setShowLogin}
-          setLoginStatus={setLoginStatus}
-          showRegister={showRegister}
-          setShowRegister={setShowRegister}
-          loginStatus={loginStatus}
-        ></LoginPage>
-      )}
+        {showRegister && (
+          <RegistrationPage
+            showLogin={showLogin}
+            setShowLogin={setShowLogin}
+            showRegister={showRegister}
+            setShowRegister={setShowRegister}
+          ></RegistrationPage>
+        )}
+        {showLogin && (
+          <LoginPage
+            showLogin={showLogin}
+            setShowLogin={setShowLogin}
+            setLoginStatus={setLoginStatus}
+            showRegister={showRegister}
+            setShowRegister={setShowRegister}
+            loginStatus={loginStatus}
+          ></LoginPage>
+        )}
+      </AuthContext.Provider>
     </>
   );
 }

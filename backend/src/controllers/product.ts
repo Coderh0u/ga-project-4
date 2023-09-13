@@ -116,7 +116,7 @@ const insertProduct = async (req: Request, res: Response) => {
           req.body.price,
           req.body.productVersion || null,
           req.body.productCategory || null, // reminder, this is a foreign key, need to be settled by frontend
-          req.body.productDe || null,
+          req.body.productDesc || null,
           req.body.productPhoto || null,
           req.body.secondHand,
           req.decoded.data.id,

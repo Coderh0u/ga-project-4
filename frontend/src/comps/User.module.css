@@ -1,0 +1,16 @@
+.band {
+  background-color: #c20f08;
+  opacity: 80%;
+  color: whitesmoke;
+  /* padding: 5px; */
+}
+
+.band > button {
+  height: 50%;
+  top: 50%;
+  transform: translate(0, 50%);
+  background-color: white;
+  border: none;
+  color: #c20f08;
+  font-weight: bold
+}

@@ -221,6 +221,19 @@ const loginVendor = async (req: Request, res: Response) => {
   }
 };
 
+const pullUserData = async (req: Request, res: Response) => {
+  try {
+    const userData = await pool.query(
+      "SELECT * FROM users WHERE username = $1 AND hash_pwd = $2",
+      [req.decoded.data.username, req.decoded.data.hash_pwd]
+    );
+    if (userData.rowCount === 1) {
+      res.status(200).json({ userData });
+    } else {
+      res.status(400).json({ status: "error", msg: "Unable to find account." });
+    }
+  } catch (error: any) {}
+};
 // fix this shit
 const deactivateAcc = async (req: Request, res: Response) => {
   try {
@@ -244,10 +257,6 @@ const deactivateAcc = async (req: Request, res: Response) => {
   }
 };
 
-const test = async (req: Request, res: Response) => {
-  res.json(req.decoded);
-};
-
 export {
   registerUser,
   loginUser,
@@ -256,5 +265,5 @@ export {
   registerVendor,
   loginVendor,
   deactivateAcc,
-  test,
+  pullUserData,
 };

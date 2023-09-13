@@ -54,10 +54,13 @@ CREATE TABLE public.moderator_logs (
 
 
 CREATE TABLE public.order_history (
-	id uuid NOT NULL DEFAULT uuid_generate_v4(),
-	shop_cart_id uuid NULL,
-	CONSTRAINT order_history_pkey PRIMARY KEY (id),
-	CONSTRAINT order_history_shop_cart_id_fkey FOREIGN KEY (shop_cart_id) REFERENCES public.shopping_cart(id)
+	id uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+	product_id uuid NULL,
+	order_date date NULL DEFAULT CURRENT_DATE,
+	total_cost numeric(15, 2) NOT NULL DEFAULT 0.00,
+	ship_address varchar(255) NOT NULL,
+	ship_date date NULL DEFAULT CURRENT_DATE + 7,
+	CONSTRAINT order_history_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.product_database(id)
 );
 
 
@@ -89,22 +92,22 @@ CREATE TABLE public.wallet (
 );
 
 CREATE TABLE public.users (
-	id uuid NOT NULL DEFAULT uuid_generate_v4(),
-	username varchar(255) NOT NULL,
-	hash_pwd varchar(255) NOT NULL,
-	wallet_id uuid NULL,
-	shop_cart_id uuid NULL,
-	is_active bool NULL DEFAULT true,
-	reviews uuid NULL,
-	order_history uuid NULL,
-	message_id uuid NULL,
-	CONSTRAINT users_pkey PRIMARY KEY (id),
-	CONSTRAINT users_message_id_fkey FOREIGN KEY (message_id) REFERENCES public.messages(id),
-	CONSTRAINT users_order_history_fkey FOREIGN KEY (order_history) REFERENCES public.order_history(id),
-	CONSTRAINT users_reviews_fkey FOREIGN KEY (reviews) REFERENCES public.reviews(id),
-	CONSTRAINT users_shop_cart_id_fkey FOREIGN KEY (shop_cart_id) REFERENCES public.shopping_cart(id),
-	CONSTRAINT users_wallet_id_fkey FOREIGN KEY (wallet_id) REFERENCES public.wallet(id)
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    username varchar(255) NOT NULL,
+    hash_pwd varchar(255) NOT NULL,
+    wallet_id uuid NULL,
+    shop_cart_id uuid NULL,
+    is_active bool NULL DEFAULT true,
+    reviews uuid NULL,
+    order_history uuid[] NULL,
+    message_id uuid NULL,
+    CONSTRAINT users_pkey PRIMARY KEY (id),
+    CONSTRAINT users_message_id_fkey FOREIGN KEY (message_id) REFERENCES public.messages(id),
+    CONSTRAINT users_reviews_fkey FOREIGN KEY (reviews) REFERENCES public.reviews(id),
+    CONSTRAINT users_shop_cart_id_fkey FOREIGN KEY (shop_cart_id) REFERENCES public.shopping_cart(id),
+    CONSTRAINT users_wallet_id_fkey FOREIGN KEY (wallet_id) REFERENCES public.wallet(id)
 );
+
 
 CREATE TABLE public.moderator (
 	id uuid NOT NULL DEFAULT uuid_generate_v4(),

@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import ReactDOM from "react-dom";
-// import AuthContext from "../context/authentication";
+import AuthContext from "../context/authentication";
 import useFetch from "../custom_hooks/useFetch";
 import styles from "./Modal.module.css";
 import { useNavigate } from "react-router-dom";
@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 const fetchData = useFetch();
 
 const LoginPage = (props: any) => {
+  const auth = useContext(AuthContext);
   const [role, setRole] = useState("user");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("plswork");
+  const [password, setPassword] = useState("password");
   const [error1, setError1] = useState("");
   const [error2, setError2] = useState("");
   const authRoot = document.querySelector<HTMLDivElement>("#auth-root")!;
@@ -21,10 +22,9 @@ const LoginPage = (props: any) => {
       password,
     });
     if (res.ok) {
+      console.log(res.data.accessToken);
       if (res.data.accessToken) {
-        console.log(username);
-        console.log(password);
-        console.log(props.loginStatus);
+        auth.setAccessToken(res.data.accessToken);
         props.setShowLogin(false);
         props.setLoginStatus(true);
         navigate("/explore");

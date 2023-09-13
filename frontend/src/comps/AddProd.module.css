@@ -1,0 +1,58 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal {
+  position: fixed;
+  background: white;
+  top: 5vh;
+  bottom: 5vh;
+  left: 10%;
+  width: 80%;
+  z-index: 100;
+  border-radius: 30px;
+}
+
+.closeButton {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  border: none;
+  background-color: white;
+}
+
+.form {
+  background-color: aqua;
+  top: 60%;
+  left: 42.5%;
+  width: 100px;
+  height: 100px;
+  margin: 10% 43% 0 43%;
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+}
+
+.file {
+  position: absolute;
+  width: 40%;
+  left: 5%;
+  top: 10%;
+  height: 80%;
+}
+
+.details {
+  position: absolute;
+  width: 45%;
+  right: 5%;
+  top: 10%;
+  height: 80%;
+}
