@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
-import useUpload from "../custom_hooks/upload";
 import useFetch from "../custom_hooks/useFetch";
 import AuthContext from "../context/authentication";
 import styles from "./AddProd.module.css";
+import FileUpload from "./FileUpload";
 
 const AddProduct = (props: any) => {
   const auth = useContext(AuthContext);
@@ -35,7 +35,7 @@ const AddProduct = (props: any) => {
       setCatRange(res.data);
     }
   };
-  const handleCatChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCat(event.target.value);
     console.log(cat);
   };
@@ -58,7 +58,7 @@ const AddProduct = (props: any) => {
               <img src="../../images/close.png" className={styles.close} />
             </button>
             {/* image */}
-            <div className={`container ${styles.file}`}></div>
+            <div className={`container ${styles.file}`}><FileUpload></FileUpload></div>
             {/* name */}
             <div className={`container ${styles.details}`}>
               <div className={`row`}>
