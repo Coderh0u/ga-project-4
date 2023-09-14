@@ -40,7 +40,6 @@
   top: 60px;
   position: absolute;
   width: 100%;
-
 }
 
 .itemCard {
@@ -50,4 +49,23 @@
   margin: 0;
   margin-bottom: 3px;
   border-radius: 10px;
+  position: relative;
+}
+
+.icon {
+  height: 36px;
+  margin-top: 8px;
+}
+.card button {
+  background-color: white;
+  border: none;
+}
+
+.actionButtons {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  right: 10px;
+  bottom: 10px;
 }

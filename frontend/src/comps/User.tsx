@@ -62,8 +62,6 @@ const User = () => {
     }
   };
 
-
-
   useEffect(() => {
     getUser();
     getUserProd();
@@ -89,7 +87,7 @@ const User = () => {
           <div className={`col-md-6 ${styles.left}`}>
             {products.map((item: any, idx: number) => (
               <div key={idx} className={styles.itemCard}>
-                <div style={{ padding: "3px" }}>
+                <div style={{ padding: "3px" }} className={styles.card}>
                   {/* images */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <img
@@ -134,21 +132,31 @@ const User = () => {
                       {item.category_name}
                     </p>
                   </div>
-                  <button value={item.id}>Edit Product</button>
-                  <button
-                    onClick={() => {
-                      setDelModal(true);
-                    }}
-                  >
-                    delete icon
-                  </button>
-                  {delModal && (
-                    <DelModal
-                      setDelModal={setDelModal}
-                      deleteProduct={deleteProduct}
-                      id={item.id}
-                    ></DelModal>
-                  )}
+                  <div className={styles.actionButtons}>
+                    <button value={item.id}>
+                      <img
+                        src="../../images/edit.png"
+                        className={styles.icon}
+                      />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setDelModal(true);
+                      }}
+                    >
+                      <img
+                        src="../../images/delete.png"
+                        className={styles.icon}
+                      />
+                    </button>
+                    {delModal && (
+                      <DelModal
+                        setDelModal={setDelModal}
+                        deleteProduct={deleteProduct}
+                        id={item.id}
+                      ></DelModal>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -157,7 +165,13 @@ const User = () => {
         </div>
       </div>
 
-      {showModal && <AddProduct setShowModal={setShowModal} setRerender={setRerender} rerender={rerender}></AddProduct>}
+      {showModal && (
+        <AddProduct
+          setShowModal={setShowModal}
+          setRerender={setRerender}
+          rerender={rerender}
+        ></AddProduct>
+      )}
     </>
   );
 };
