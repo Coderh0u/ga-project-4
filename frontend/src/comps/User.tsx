@@ -9,7 +9,7 @@ import useFetch from "../custom_hooks/useFetch";
 import AuthContext from "../context/authentication";
 import styles from "./User.module.css";
 import AddProduct from "./AddProduct";
-const authRoot = document.querySelector<HTMLDivElement>("#auth-root")!;
+import DelModal from "./DelModal";
 
 const User = () => {
   const auth = useContext(AuthContext);
@@ -136,24 +136,7 @@ const User = () => {
                   >
                     delete icon
                   </button>
-                  {ReactDOM.createPortal(
-                    <div className={styles.backdrop}>
-                      <div className={styles.modal}>
-                        <h2>Confirm delete product?</h2>
-                        <button value={item.id} onClick={deleteProduct}>
-                          Yes
-                        </button>
-                        <button
-                          onClick={() => {
-                            setDelModal(false);
-                          }}
-                        >
-                          No
-                        </button>
-                      </div>
-                    </div>,
-                    authRoot
-                  )}
+                  {delModal && <DelModal setDelModal={setDelModal} deleteProduct={deleteProduct} id={item.id}></DelModal>}
                 </div>
               </div>
             ))}
@@ -161,6 +144,7 @@ const User = () => {
           <div className={`col-md-6 ${styles.right}`}></div>
         </div>
       </div>
+
       {showModal && <AddProduct setShowModal={setShowModal}></AddProduct>}
     </>
   );

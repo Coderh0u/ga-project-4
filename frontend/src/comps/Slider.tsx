@@ -25,17 +25,9 @@ const Carousel = (props: any) => {
     <div>
       <Slider {...settings}>
         {props.items.map((item: any, index: number) => (
-          <div
-            key={index}
-            onClick={() => {
-              divertToLogin();
-            }}
-          >
-            {<ItemCard>{item}</ItemCard>}
-          </div>
+          <ItemCard>{item}</ItemCard>
         ))}
       </Slider>
-      <div style={{ textAlign: "center" }}></div>
     </div>
   );
 };

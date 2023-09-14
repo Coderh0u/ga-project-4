@@ -3,7 +3,15 @@
 const ItemCard = (props: any) => {
   const item = props.children;
   return (
-    <div style={{ padding: "3px" }}>
+    <div
+      style={{
+        padding: "3px",
+        borderRadius: "30px",
+        border: "2px solid #c20f08",
+        margin: '3px',
+       
+      }}
+    >
       {/* images */}
       <div style={{ display: "flex", justifyContent: "center" }}>
         <img
