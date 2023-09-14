@@ -22,10 +22,10 @@ const Carousel = (props: any) => {
     }
   };
   return (
-    <div>
+    <div style={{ marginTop: "5px", overflowX: 'hidden', overflowY: 'hidden' }}>
       <Slider {...settings}>
         {props.items.map((item: any, index: number) => (
-          <ItemCard>{item}</ItemCard>
+          <ItemCard divertToLogin={divertToLogin}>{item}</ItemCard>
         ))}
       </Slider>
     </div>

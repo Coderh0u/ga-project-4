@@ -7,18 +7,37 @@ const DelModal = (props: any) => {
     <>
       {ReactDOM.createPortal(
         <div className={styles.backdrop}>
-          <div className={styles.modal}>
-            <h2>Confirm delete product?</h2>
-            <button value={props.id} onClick={props.deleteProduct}>
-              {props.id}
-            </button>
-            <button
-              onClick={() => {
-                props.setDelModal(false);
+          <div
+            className={styles.modal}
+            // style={{ height: "50%", color: "#c20f08" }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                textAlign: "center",
               }}
             >
-              No
-            </button>
+              <h2>Confirm delete product?</h2>
+              <button
+                value={props.id}
+                onClick={(e) => {
+                  props.deleteProduct(e);
+                  props.setDelModal(false);
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {
+                  props.setDelModal(false);
+                }}
+              >
+                No
+              </button>
+            </div>
           </div>
         </div>,
         authRoot

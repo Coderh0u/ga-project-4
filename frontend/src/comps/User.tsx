@@ -18,6 +18,7 @@ const User = () => {
   const [orderHist, setOrderHist] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [delModal, setDelModal] = useState(false);
+  const [rerender, setRerender] = useState(false);
   const fetchData = useFetch();
 
   const getUser = async () => {
@@ -47,6 +48,7 @@ const User = () => {
 
   const deleteProduct = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
+    console.log("delte called");
     const res = await fetchData(
       "/products/delete",
       "DELETE",
@@ -54,14 +56,18 @@ const User = () => {
       auth.accessToken
     );
     if (res.ok) {
-      getUserProd();
+      setRerender(!rerender);
+
+      console.log("deleted");
     }
   };
+
+
 
   useEffect(() => {
     getUser();
     getUserProd();
-  }, []);
+  }, [rerender]);
   return (
     <>
       <div>
@@ -116,8 +122,8 @@ const User = () => {
 
                   <p>
                     <span style={{ fontWeight: "bold", color: "#c20f08" }}>
-                      Price:{" "}
-                    </span>{" "}
+                      Price:
+                    </span>
                     ${item.price}
                   </p>
                   <div className="row">
@@ -136,7 +142,13 @@ const User = () => {
                   >
                     delete icon
                   </button>
-                  {delModal && <DelModal setDelModal={setDelModal} deleteProduct={deleteProduct} id={item.id}></DelModal>}
+                  {delModal && (
+                    <DelModal
+                      setDelModal={setDelModal}
+                      deleteProduct={deleteProduct}
+                      id={item.id}
+                    ></DelModal>
+                  )}
                 </div>
               </div>
             ))}
@@ -145,7 +157,7 @@ const User = () => {
         </div>
       </div>
 
-      {showModal && <AddProduct setShowModal={setShowModal}></AddProduct>}
+      {showModal && <AddProduct setShowModal={setShowModal} setRerender={setRerender} rerender={rerender}></AddProduct>}
     </>
   );
 };

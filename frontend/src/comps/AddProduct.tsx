@@ -162,8 +162,7 @@ const AddProduct = (props: any) => {
                     <button
                       onClick={() => {
                         addProduct();
-                        console.log(image);
-                        console.log("click");
+                        props.setRerender(!props.rerender)
                       }}
                       className={`col-md-3 ${
                         name && price && cat && desc

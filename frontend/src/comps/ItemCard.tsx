@@ -2,14 +2,15 @@
 
 const ItemCard = (props: any) => {
   const item = props.children;
+  const doNothing = () => {};
+
   return (
     <div
       style={{
         padding: "3px",
         borderRadius: "30px",
         border: "2px solid #c20f08",
-        margin: '3px',
-       
+        margin: "3px",
       }}
     >
       {/* images */}
@@ -60,6 +61,7 @@ const ItemCard = (props: any) => {
             color: "white",
             border: "none",
           }}
+          onClick={props.divertToLogin ? props.divertToLogin : doNothing}
         >
           Add to cart
         </button>
