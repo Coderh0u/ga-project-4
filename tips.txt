@@ -35,3 +35,26 @@ res.data.userData.rows[0]
 }
 
 #c20f08
+
+ req.decoded:  {
+[1]   data: {
+[1]     id: '237041ff-edd0-4c3d-8417-4f2379719aeb',
+[1]     username: 'plswork',
+[1]     hash_pwd: '$2b$12$bbO4aAA.P2IMgsZz4A4uF.OUL5CjdiatLa/xvb9Ff0v0H82QtAMAW',
+[1]     wallet_id: null,
+[1]     shop_cart_id: null,
+[1]     is_active: true,
+[1]     reviews: null,
+[1]     order_history: [ null ],
+[1]     message_id: null
+[1]   },
+[1]   role: 'user',
+[1]   iat: 1694659368,
+[1]   exp: 1695523368,
+[1]   jti: '6d4d878c-6cbb-422b-adc5-13b892543b91'
+[1] }
+
+
+1. fix the edit and delete per product, create a new component for it
+2. fix the edit
+3. build the addCart function
