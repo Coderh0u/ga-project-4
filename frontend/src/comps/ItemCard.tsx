@@ -2,7 +2,9 @@
 
 const ItemCard = (props: any) => {
   const item = props.children;
-  const doNothing = () => {};
+  const addToCart = async() => {
+    const res = await
+  };
 
   return (
     <div

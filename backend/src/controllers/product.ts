@@ -253,14 +253,13 @@ const editProduct = async (req: Request, res: Response) => {
       );
       if (req.decoded.data.id === prod.rows[0].creator_vendor) {
         const updatedProduct = await pool.query(
-          "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, desc=$5, product_photo=$6 WHERE id=$7",
+          "UPDATE product_database SET product_name=$1, price=$2, prod_category=$3, prod_desc=$4, product_photo=$5 WHERE id=$6",
           [
-            req.body.productName || prod.rows[0].product_name,
-            req.body.price || prod.rows[0].price,
-            req.body.productVersion || prod.rows[0].prod_version,
-            req.body.productCategory || prod.rows[0].prod_category,
-            req.body.productDesc || prod.rows[0].desc,
-            req.body.productPhoto || prod.rows[0].product_photo,
+            req.body.productName,
+            req.body.price,
+            req.body.productCategory,
+            req.body.productDesc,
+            req.body.productPhoto,
             req.body.productId,
           ]
         );

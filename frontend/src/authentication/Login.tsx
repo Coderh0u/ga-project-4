@@ -24,6 +24,7 @@ const LoginPage = (props: any) => {
     if (res.ok) {
       if (res.data.accessToken) {
         auth.setAccessToken(res.data.accessToken);
+        auth.setUserRole(role)
         props.setShowLogin(false);
         props.setLoginStatus(true);
         navigate("/explore");

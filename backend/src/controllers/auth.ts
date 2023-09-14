@@ -232,8 +232,35 @@ const pullUserData = async (req: Request, res: Response) => {
     } else {
       res.status(400).json({ status: "error", msg: "Unable to find account." });
     }
-  } catch (error: any) {}
+  } catch (error: any) {
+    console.error(error.stack);
+    res.status(500).json({
+      status: "error",
+      msg: "An error occured while pulling account.",
+    });
+  }
 };
+
+const pullVendorData = async (req: Request, res: Response) => {
+  try {
+    const userData = await pool.query(
+      "SELECT * FROM vendors WHERE username = $1 AND hash_pwd = $2",
+      [req.decoded.data.username, req.decoded.data.hash_pwd]
+    );
+    if (userData.rowCount === 1) {
+      res.status(200).json({ userData });
+    } else {
+      res.status(400).json({ status: "error", msg: "Unable to find account." });
+    }
+  } catch (error: any) {
+    console.error(error.stack);
+    res.status(500).json({
+      status: "error",
+      msg: "An error occured while pulling account.",
+    });
+  }
+};
+
 // fix this shit
 const deactivateAcc = async (req: Request, res: Response) => {
   try {
@@ -266,4 +293,5 @@ export {
   loginVendor,
   deactivateAcc,
   pullUserData,
+  pullVendorData,
 };

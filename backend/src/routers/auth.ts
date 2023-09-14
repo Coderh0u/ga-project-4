@@ -9,12 +9,13 @@ import {
   loginVendor,
   deactivateAcc,
   pullUserData,
+  pullVendorData
 } from "../controllers/auth";
 import { validateLogin, validateRegData } from "../validator/auth";
 import validation from "../middleware/validChecker";
 import {
   authNorm,
-  authUser, 
+  authUser,
   authModerator,
   authVendor,
   // may shift to somewhere else
@@ -23,7 +24,6 @@ import {
 router.put("/register/user", validateRegData, validation, registerUser);
 router.post("/login/user", validateLogin, validation, loginUser);
 
-
 router.put(
   "/register/moderator",
   validateRegData,
@@ -31,11 +31,12 @@ router.put(
   registerModerator
 );
 
-router.post("/login/moderator", validateLogin, validation, loginModerator, );
+router.post("/login/moderator", validateLogin, validation, loginModerator);
 
 router.put("/register/vendor", validateRegData, validation, registerVendor);
 router.post("/login/vendor", validateLogin, validation, loginVendor);
 
-router.patch("/deactivate_account", authNorm, deactivateAcc);// probably broken
-router.post("/user", authNorm, pullUserData);// pull data from whoever is using
+router.patch("/deactivate_account", authNorm, deactivateAcc); // probably broken
+router.post("/user", authNorm, pullUserData); // pull data from whoever is using
+router.post("/vendor", authNorm, pullVendorData);
 export default router;

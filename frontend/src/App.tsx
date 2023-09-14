@@ -13,10 +13,13 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [accessToken, setAccessToken] = useState("");
+  const [userRole, setUserRole] = useState("")
   return (
     <>
-      <AuthContext.Provider value={{ accessToken, setAccessToken }}>
-        <header style={{padding: '8px', height: '60px', overflow: 'visible'}}>
+      <AuthContext.Provider
+        value={{ accessToken, setAccessToken, userRole, setUserRole }}
+      >
+        <header style={{ padding: "8px", height: "60px", overflow: "visible" }}>
           <Navbar
             setShowLogin={setShowLogin}
             loginStatus={loginStatus}
@@ -24,7 +27,7 @@ function App() {
           ></Navbar>
         </header>
 
-        <div style={{top: '60px', position: 'relative'}}>
+        <div style={{ top: "60px", position: "relative" }}>
           <Routes>
             <Route
               path="/"

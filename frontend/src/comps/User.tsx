@@ -38,6 +38,18 @@ const User = () => {
     }
   };
 
+  const getVendor = async () => {
+    const res = await fetchData(
+      "/auth/vendor",
+      "POST",
+      undefined,
+      auth.accessToken
+    );
+    if (res.ok) {
+      setUserName(res.data.userData.rows[0].vendor_name);
+    }
+  };
+
   const getUserProd = async () => {
     const res = await fetchData(
       "/products/user",
@@ -68,7 +80,12 @@ const User = () => {
   };
 
   useEffect(() => {
-    getUser();
+    if (auth.userRole === "user") {
+      getUser();
+    }
+    if (auth.userRole === "vendor") {
+      getVendor();
+    }
     getUserProd();
   }, [rerender]);
   return (
