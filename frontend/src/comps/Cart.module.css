@@ -30,3 +30,44 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.itemCard {
+  border: 1px solid #c20f08;
+  left: 2%;
+  width: 96%;
+  margin: 0;
+  margin-bottom: 3px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.icon {
+  height: 36px;
+  margin-top: 8px;
+}
+.card button {
+  background-color: white;
+  border: none;
+}
+
+.actionButtons {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  right: 10px;
+  bottom: 10px;
+}
+
+.summary {
+  position: absolute;
+  top: 20%;
+  height: 80%;
+  right: 5%;
+  width: 40%;
+background-color: #c20f08;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}

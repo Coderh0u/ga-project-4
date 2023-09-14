@@ -148,4 +148,27 @@ const getHistory = async (req: Request, res: Response) => {
   }
 };
 
-export{creatHistory, createCart, editCart, delCart, getCart, getHistory}
+const getCartProds = async (req: Request, res: Response) => {
+  try {
+    const products = await pool.query(
+      "SELECT product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_database.prod_category, product_category.category_name FROM product_database JOIN product_category ON product_database.prod_category = product_category.id WHERE product_database.id=$1",
+      [req.body.prodId]
+    );
+    if (products) {
+      res.json(products.rows);
+    }
+  } catch (error: any) {
+    console.error(error.stack);
+    res.status(500).json({ error: "An error occured while getting products." });
+  }
+};
+
+export {
+  creatHistory,
+  createCart,
+  editCart,
+  delCart,
+  getCart,
+  getHistory,
+  getCartProds,
+};

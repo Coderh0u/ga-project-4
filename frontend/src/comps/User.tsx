@@ -218,7 +218,6 @@ const User = () => {
                   </div>
                 </div>
               </div>
-              // <ItemCard>{item}</ItemCard>
             ))}
           </div>
           <div className={`col-md-6 ${styles.right}`}></div>

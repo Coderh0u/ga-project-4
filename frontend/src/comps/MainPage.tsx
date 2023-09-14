@@ -12,7 +12,6 @@ const MainPage = (props: any) => {
       limit: 10,
     });
     if (res.ok) {
-      console.log(res);
       setItems(res.data);
     }
   };
