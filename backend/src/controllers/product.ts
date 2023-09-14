@@ -139,7 +139,7 @@ const insertProduct = async (req: Request, res: Response) => {
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     let queryString =
-      `SELECT product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_category.category_name` +
+      `SELECT product_database.id, product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_category.category_name` +
       (req.body.criteria ? ", vendors.vendor_name" : "") +
       ` FROM product_database JOIN product_category ON product_database.prod_category = product_category.id` +
       (req.body.criteria

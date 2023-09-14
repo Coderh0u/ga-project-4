@@ -25,6 +25,10 @@ const MainPage = (props: any) => {
       <img src="../images/banner.png" className={styles.banner} />
       {items.length > 0 && (
         <Carousel
+          products={props.products}
+          totalCost={props.totalCost}
+          setProducts={props.setProducts}
+          setTotalCost={props.setTotalCost}
           items={items}
           loginStatus={props.loginStatus}
           setShowLogin={props.setShowLogin}

@@ -6,10 +6,11 @@ import Sidebar from "./Sidebar";
 
 const fetchData = useFetch();
 
-const ExplorePage = () => {
+const ExplorePage = (props: any) => {
   const [items, setItems] = useState([]);
   const [criteria, setCriteria] = useState([]);
   const [filter, setFilter] = useState<any[]>([]);
+
   const getData = async () => {
     try {
       const res = await fetchData("/products/all", "POST", {
@@ -39,7 +40,16 @@ const ExplorePage = () => {
       <div className={styles.container}>
         {items.map((item: any, index: number) => (
           <div key={index} className={styles.itemCard}>
-            {<ItemCard>{item}</ItemCard>}
+            {
+              <ItemCard
+                products={props.products}
+                totalCost={props.totalCost}
+                setProducts={props.setProducts}
+                setTotalCost={props.setTotalCost}
+              >
+                {item}
+              </ItemCard>
+            }
           </div>
         ))}
       </div>

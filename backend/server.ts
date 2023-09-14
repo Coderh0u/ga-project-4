@@ -9,6 +9,7 @@ import product from "./src/routers/product";
 import moderator from "./src/routers/mod_log";
 import orders from "./src/routers/orders";
 import search from "./src/routers/search";
+import cart from "./src/routers/cart";
 
 const app = express();
 
@@ -24,7 +25,9 @@ app.use("/moderator", moderator);
 
 app.use("/orders", orders);
 
-app.use('/api', search);
+app.use("/cart", cart);
+
+app.use("/api", search);
 
 const PORT = process.env.PORT || 5004;
 app.listen(PORT, () => {

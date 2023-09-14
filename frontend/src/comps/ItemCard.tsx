@@ -1,9 +1,13 @@
-// import React from "react";
+import React, { useState } from "react";
 
 const ItemCard = (props: any) => {
   const item = props.children;
-  const addToCart = async() => {
-    const res = await
+
+  const addToCart = () => {
+    props.setProducts((prevProducts: string[]) => [...prevProducts, item.id]);
+    props.setTotalCost(
+      (prevTotalCost: number) => prevTotalCost + parseFloat(item.price)
+    );
   };
 
   return (
@@ -63,9 +67,22 @@ const ItemCard = (props: any) => {
             color: "white",
             border: "none",
           }}
-          onClick={props.divertToLogin ? props.divertToLogin : doNothing}
+          onClick={() => {
+            if (props.divertToLogin) {
+              props.divertToLogin();
+            }
+            addToCart();
+          }}
         >
           Add to cart
+        </button>
+        <button
+          onClick={() => {
+            console.log(props.products);
+            console.log(props.totalCost);
+          }}
+        >
+          test
         </button>
       </div>
     </div>

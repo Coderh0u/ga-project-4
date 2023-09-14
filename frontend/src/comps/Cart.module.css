@@ -1,0 +1,12 @@
+.band {
+  background-color: #c20f08;
+  z-index: 10;
+  color: whitesmoke;
+  position: fixed;
+  width: 100vw;
+  height: 56px;
+}
+
+.band > h1 {
+  text-align: center;
+}
