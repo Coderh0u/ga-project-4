@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 const createCart = async (req: Request, res: Response) => {
   try {
     const newCart = await pool.query(
-      "INSERT INTO shopping_cart(product_id, total_cost, ship_address, ship_date) VALUES($1, $2, $3, $4)",
+      "INSERT INTO shopping_cart2(product_ids, total_cost, ship_address, ship_date) VALUES($1, $2, $3, $4)",
       [
         req.body.productIds,
         req.body.totalCost,

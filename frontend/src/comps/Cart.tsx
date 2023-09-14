@@ -11,12 +11,16 @@ const Cart = (props: any) => {
   const [items, setItems] = useState<any[]>([]);
 
   const submitCart = async () => {
+    const productIds = productArray.map((product) => product.id);
     const res = await fetchData("/cart/new", "PUT", {
-      productIds: productArray,
+      productIds,
       totalCost: props.totalCost,
       shipAddress: address,
       shipDate,
     });
+    if (res.ok) {
+      alert("Thanks for shopping with us");
+    }
   };
 
   const compileCart = async () => {
@@ -99,13 +103,16 @@ const Cart = (props: any) => {
                   {/* description */}
                   <p>{item.prod_desc}</p>
                 </div>
-                <p>
-                  {/* price */}
-                  <span style={{ fontWeight: "bold", color: "#c20f08" }}>
-                    Price:
-                  </span>
-                  ${item.price}
-                </p>
+                <div className="row">
+                  <p className="col-md-6">
+                    {/* price */}
+                    <span style={{ fontWeight: "bold", color: "#c20f08" }}>
+                      Price:
+                    </span>
+                    ${item.price}
+                  </p>
+                  <h5 className="col-md-6">QTY: {productArray[idx].count}</h5>
+                </div>
                 <div className="row">
                   {/* category */}
                   <p className="col-sm-8">
@@ -127,6 +134,31 @@ const Cart = (props: any) => {
               </div>
             </div>
           ))}
+        </div>
+        <div className={styles.summary}>
+          <div className={`row`}>
+            <h5 className="col-md-4">Address:</h5>
+            <input
+              className={` col-md-8 ${styles.inputField}`}
+              type="text"
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
+            />
+          </div>
+          <div className={`row`}>
+            <h5 className="col-md-4">Date:</h5>
+            <input
+              className={` col-md-8 ${styles.inputField}`}
+              type="date"
+              onChange={(e) => {
+                const selectedDate = new Date(e.target.value);
+                setShipDate(selectedDate);
+              }}
+            />
+          </div>
+          <h1>Your total cost is ${props.totalCost}</h1>
+          <button onClick={() => submitCart()}>checkout</button>
         </div>
       </div>
     </>
