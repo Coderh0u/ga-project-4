@@ -4,8 +4,11 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   width: calc(100% - 200px);
-  left: 200px;
-  position: fixed;
+  height: calc(100%-50px);
+
+  right: 0px;
+  position: absolute;
+  overflow: auto;
 }
 
 .itemCard {

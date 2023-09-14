@@ -8,6 +8,7 @@ import {
   editProduct,
   getAllCat,
   getAllProduct,
+  getUserProd,
   insertProduct,
 } from "../controllers/product";
 import { authModerator, authNorm } from "../middleware/auth";
@@ -35,8 +36,8 @@ router.delete("/category/delete", authModerator, delCategory);
 // prroducts related routers
 router.put("/new", authNorm, validateProduct, validation, insertProduct);
 router.post("/all", getAllProduct);
+router.get("/user", authNorm, getUserProd);
 router.patch("/edit", authNorm, validateProduct, validation, editProduct);
 router.delete("/delete", authNorm, deleteProduct);
 
 export default router;
- 

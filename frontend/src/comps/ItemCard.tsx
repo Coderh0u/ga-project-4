@@ -4,10 +4,18 @@ const ItemCard = (props: any) => {
   const item = props.children;
   return (
     <div style={{ padding: "3px" }}>
-      <img src={item.product_photo} alt={item.product_name} />
+      {/* images */}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <img
+          src={item.product_photo}
+          alt={item.product_name}
+          style={{ maxWidth: "100%", height: "200px" }}
+        />
+      </div>
       <div className="row" style={{ height: "50px" }}>
+        {/* product name */}
         <h4 className="col-sm-6">{item.product_name}</h4>
-
+        {/* secondhand */}
         {item.is_secondhand && (
           <p
             className="col-sm-6"

@@ -93,7 +93,7 @@ const insertProduct = async (req: Request, res: Response) => {
           req.body.productName,
           req.body.price,
           req.body.productVersion || null,
-          req.body.productCategory || null, // reminder, this is a foreign key
+          req.body.productCategory || null,
           req.body.productDesc || null,
           req.body.productPhoto || null,
           req.decoded.data.id,
@@ -187,6 +187,36 @@ const getAllProduct = async (req: Request, res: Response) => {
   }
 };
 
+const getUserProd = async (req: Request, res: Response) => {
+  try {
+    if (req.decoded.role === "user") {
+      const userProd = await pool.query(
+        "SELECT product_database.id, product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_category.category_name FROM product_database JOIN product_category ON product_database.prod_category = product_category.id JOIN users ON product_database.creator_user = users.id WHERE users.id =$1",
+        [req.decoded.data.id]
+      );
+      if (userProd.rowCount) {
+        res.json(userProd.rows);
+      } else {
+        res.json("");
+      }
+    }
+    if (req.decoded.role === "vendor") {
+      const vendProd = await pool.query(
+        "SELECT product_database.id, product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_category.category_name FROM product_database JOIN product_category ON product_database.prod_category = product_category.id JOIN vendors ON product_database.creator_vendor =vendors.id WHERE vendors.id =$1",
+        [req.decoded.data.id]
+      );
+      if (vendProd.rowCount) {
+        res.json(vendProd.rows);
+      } else {
+        res.json("");
+      }
+    }
+  } catch (error: any) {
+    console.error(error.stack);
+    res.status(500).json({ error: "An error occured while getting products." });
+  }
+};
+
 const editProduct = async (req: Request, res: Response) => {
   try {
     // check the role of the person requesting the edit
@@ -202,9 +232,8 @@ const editProduct = async (req: Request, res: Response) => {
           [
             req.body.productName || prod.rows[0].product_name,
             req.body.price || prod.rows[0].price,
-            req.body.productVersion || prod.rows[0].prod_version,
             req.body.productCategory || prod.rows[0].prod_category,
-            req.body.Desc || prod.rows[0].desc,
+            req.body.desc || prod.rows[0].desc,
             req.body.productPhoto || prod.rows[0].product_photo,
             req.body.secondHand || prod.rows[0].is_secondhand,
             req.body.productId,
@@ -307,76 +336,16 @@ const editProduct = async (req: Request, res: Response) => {
 
 const deleteProduct = async (req: Request, res: Response) => {
   try {
-    // check the role of the person requesting the delete
-    if (req.decoded.role === "user") {
-      // check if person requesting the delete is the owner of the product
-      const prod = await pool.query(
-        "SELECT * FROM product_database WHERE id=$1",
-        [req.body.productId]
-      );
-      if (req.decoded.data.id === prod.rows[0].creator_user) {
-        const delProduct = await pool.query(
-          "DELETE FROM product_database WHERE id=$1",
-          [req.body.productId]
-        );
-        if (delProduct.rowCount) {
-          res.status(200).json({ status: "ok", msg: "Product deleted" });
-          return;
-        } else {
-          res.status(404).json({ status: "error", msg: "No products found" });
-          return;
-        }
-      } else {
-        res.status(401).json({
-          status: "error",
-          msg: "You do not have the rights to delete this product.",
-        });
-      }
-    }
-
-    // check the role of the person requesting the delete
-    if (req.decoded.role === "vendor") {
-      // check if person requesting the delete is the owner of the product
-      const prod = await pool.query(
-        "SELECT * FROM product_database WHERE id=$1",
-        [req.body.productId]
-      );
-      if (req.decoded.data.id === prod.rows[0].creator_vendor) {
-        const delProduct = await pool.query(
-          "DELETE FROM product_database WHERE id=$1",
-          [req.body.productId]
-        );
-        if (delProduct.rowCount) {
-          res.status(200).json({ status: "ok", msg: "Product deleted" });
-          return;
-        } else {
-          res.status(404).json({ status: "error", msg: "No products found" });
-          return;
-        }
-      } else {
-        res.status(401).json({
-          status: "error",
-          msg: "You do not have the rights to delete this product.",
-        });
-      }
-    }
-
-    // check the role of the person requesting the delete
-    // moderator has rights to delete anything they want
-    if (req.decoded.role === "moderator") {
-      // check if person requesting the delete is the owner of the product
-
-      const delProduct = await pool.query(
-        "DELETE FROM product_database WHERE id=$1",
-        [req.body.productId]
-      );
-      if (delProduct.rowCount) {
-        res.status(200).json({ status: "ok", msg: "Product deleted" });
-        return;
-      } else {
-        res.status(404).json({ status: "error", msg: "No products found" });
-        return;
-      }
+    const delProduct = await pool.query(
+      "DELETE FROM product_database WHERE id=$1",
+      [req.body.productId]
+    );
+    if (delProduct.rowCount) {
+      res.status(200).json({ status: "ok", msg: "Product deleted" });
+      return;
+    } else {
+      res.status(404).json({ status: "error", msg: "No products found" });
+      return;
     }
   } catch (error: any) {
     console.error(error.stack);
@@ -394,6 +363,7 @@ export {
   delCategory,
   insertProduct,
   getAllProduct,
+  getUserProd,
   editProduct,
   deleteProduct,
 };

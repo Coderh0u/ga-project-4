@@ -22,7 +22,6 @@ const LoginPage = (props: any) => {
       password,
     });
     if (res.ok) {
-      console.log(res.data.accessToken);
       if (res.data.accessToken) {
         auth.setAccessToken(res.data.accessToken);
         props.setShowLogin(false);

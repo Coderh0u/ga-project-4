@@ -8,9 +8,10 @@ code out /user
 include CRUD product
 include CRUD categories
 
-res.data.url => url to the picture full scale
+res.data.data.url => url to the picture full scale
 res.data.thumb.url => thumbnail size
-res.data.medium.url => medium size?
+res.data.data.display_url => medium size?
+res.data.data.delete_url
 res.success => 200/ other number
 
 if (req.body.filter) {
@@ -18,3 +19,19 @@ if (req.body.filter) {
   queryString += ` WHERE product_category.id = ANY($${filterIndex}::uuid[])`;
   queryParams.push(req.body.filter);
 }
+
+FUCKING USER PAGE 
+res.data.userData.rows[0]
+{
+    "id": "237041ff-edd0-4c3d-8417-4f2379719aeb",
+    "username": "plswork",
+    "hash_pwd": "$2b$12$bbO4aAA.P2IMgsZz4A4uF.OUL5CjdiatLa/xvb9Ff0v0H82QtAMAW",
+    "wallet_id": null,
+    "shop_cart_id": null,
+    "is_active": true,
+    "reviews": null,
+    "order_history": null,
+    "message_id": null
+}
+
+#c20f08
