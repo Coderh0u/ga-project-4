@@ -66,6 +66,7 @@ const ItemCard = (props: any) => {
             opacity: "80%",
             color: "white",
             border: "none",
+            borderRadius: '10px'
           }}
           onClick={() => {
             if (props.divertToLogin) {
@@ -76,14 +77,7 @@ const ItemCard = (props: any) => {
         >
           Add to cart
         </button>
-        <button
-          onClick={() => {
-            console.log(props.products);
-            console.log(props.totalCost);
-          }}
-        >
-          test
-        </button>
+       
       </div>
     </div>
   );

@@ -70,7 +70,17 @@ function App() {
               }
             ></Route>
             <Route path="/user" element={<User></User>}></Route>
-            <Route path="/cart" element={<Cart></Cart>}></Route>
+            <Route
+              path="/cart"
+              element={
+                <Cart
+                  products={products}
+                  totalCost={totalCost}
+                  setProducts={setProducts}
+                  setTotalCost={setTotalCost}
+                ></Cart>
+              }
+            ></Route>
           </Routes>
         </div>
         {showRegister && (
