@@ -7,6 +7,7 @@ import useFetch from "../custom_hooks/useFetch";
 import FileUpload from "./FileUpload";
 
 const EditModal = (props: any) => {
+  const item = props.children;
   const auth = useContext(AuthContext);
   const [image, setImage] = useState<string | null>("");
   const [catRange, setCatRange] = useState<any[]>([]);
@@ -14,22 +15,21 @@ const EditModal = (props: any) => {
   const [price, setPrice] = useState<number>();
   const [cat, setCat] = useState("");
   const [desc, setDesc] = useState("");
-  // const [secondHand, setSecondhand] = useState(props.item.is_secondHand);
+  const [secondHand, setSecondhand] = useState(item.is_secondhand);
   const fetchData = useFetch();
-  const item = props.children;
 
   const editProduct = async () => {
     const res = await fetchData(
       "/products/edit",
       "PATCH",
       {
-        productId: props.item.id,
-        productName: name || null,
-        price: price || null,
-        productCategory: cat || null,
-        productDesc: desc || null,
-        productPhoto: image || null,
-        // secondHand,
+        productId: item.id,
+        productName: name ? name : item.product_name,
+        price: price ? price : item.price,
+        productCategory: cat ? cat : item.prod_category,
+        productDesc: desc ? desc : item.prod_desc,
+        productPhoto: image ? image : item.product_photo,
+        secondHand,
       },
       auth.accessToken
     );
@@ -105,7 +105,7 @@ const EditModal = (props: any) => {
                 <h5 className="col-md-4">Secondhand: </h5>
                 <input
                   type="checkbox"
-                  value={undefined}
+                  defaultChecked={secondHand}
                   onChange={() => setSecondhand(!secondHand)}
                   className="col-md-1"
                 ></input>
@@ -116,6 +116,7 @@ const EditModal = (props: any) => {
                   onClick={() => {
                     editProduct();
                     props.setEditModal(false);
+                    props.setRerender(!props.rerender);
                   }}
                   className={`col-md-3 ${styles.update}`}
                 >

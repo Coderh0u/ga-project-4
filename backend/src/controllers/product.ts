@@ -185,7 +185,7 @@ const getUserProd = async (req: Request, res: Response) => {
   try {
     if (req.decoded.role === "user") {
       const userProd = await pool.query(
-        "SELECT product_database.id, product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_category.category_name FROM product_database JOIN product_category ON product_database.prod_category = product_category.id JOIN users ON product_database.creator_user = users.id WHERE users.id =$1",
+        "SELECT product_database.id, product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_database.prod_category, product_category.category_name FROM product_database JOIN product_category ON product_database.prod_category = product_category.id JOIN users ON product_database.creator_user = users.id WHERE users.id =$1",
         [req.decoded.data.id]
       );
       if (userProd.rowCount) {
@@ -196,7 +196,7 @@ const getUserProd = async (req: Request, res: Response) => {
     }
     if (req.decoded.role === "vendor") {
       const vendProd = await pool.query(
-        "SELECT product_database.id, product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_category.category_name FROM product_database JOIN product_category ON product_database.prod_category = product_category.id JOIN vendors ON product_database.creator_vendor =vendors.id WHERE vendors.id =$1",
+        "SELECT product_database.id, product_database.product_name, product_database.price, product_database.prod_desc, product_database.product_photo, product_database.is_secondhand, product_database.prod_category, product_category.category_name FROM product_database JOIN product_category ON product_database.prod_category = product_category.id JOIN vendors ON product_database.creator_vendor =vendors.id WHERE vendors.id =$1",
         [req.decoded.data.id]
       );
       if (vendProd.rowCount) {
@@ -215,36 +215,31 @@ const editProduct = async (req: Request, res: Response) => {
   try {
     // check the role of the person requesting the edit
     if (req.decoded.role === "user") {
-      // check if person requesting the edit is the owner of the product
       const prod = await pool.query(
         "SELECT * FROM product_database WHERE id=$1",
         [req.body.productId]
       );
-      if (req.decoded.data.id === prod.rows[0].creator_user) {
-        const updatedProduct = await pool.query(
-          "UPDATE product_database SET product_name=$1, price=$2, prod_category=$3, prod_desc=$4, product_photo=$5, is_secondhand=$6 WHERE id=$7",
-          [
-            req.body.productName || prod.rows[0].product_name,
-            req.body.price || prod.rows[0].price,
-            req.body.productCategory || prod.rows[0].prod_category,
-            req.body.productDesc || prod.rows[0].desc,
-            req.body.productPhoto || prod.rows[0].product_photo,
-            req.body.secondHand || prod.rows[0].is_secondhand,
-            req.body.productId,
-          ]
-        );
-        if (updatedProduct.rowCount) {
-          res.status(200).json({ status: "ok", msg: "Product updated" });
-          return;
-        } else {
-          res.status(404).json({ status: "error", msg: "Unable to update" });
-          return;
-        }
+      console.log(1);
+      const updatedProduct = await pool.query(
+        "UPDATE product_database SET product_name=$1, price=$2, prod_category=$3, prod_desc=$4, product_photo=$5, is_secondhand=$6 WHERE id=$7",
+        [
+          req.body.productName,
+          req.body.price,
+          req.body.productCategory,
+          req.body.productDesc,
+          req.body.productPhoto,
+          req.body.secondHand,
+          req.body.productId,
+        ]
+      );
+      console.log(2);
+      if (updatedProduct.rowCount) {
+        res.status(200).json({ status: "ok", msg: "Product updated" });
+        console.log(3);
+        return;
       } else {
-        res.status(401).json({
-          status: "error",
-          msg: "You do not have the rights to edit this product.",
-        });
+        res.status(404).json({ status: "error", msg: "Unable to update" });
+        console.log(4);
         return;
       }
     }

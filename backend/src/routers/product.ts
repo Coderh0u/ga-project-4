@@ -37,7 +37,7 @@ router.delete("/category/delete", authModerator, delCategory);
 router.put("/new", authNorm, validateProduct, validation, insertProduct);
 router.post("/all", getAllProduct);
 router.get("/user", authNorm, getUserProd);
-router.patch("/edit", authNorm, validateProduct, validation, editProduct);
+router.patch("/edit", authNorm, editProduct);
 router.delete("/delete", authNorm, deleteProduct);
 
 export default router;

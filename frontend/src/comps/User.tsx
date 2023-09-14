@@ -174,7 +174,7 @@ const User = () => {
                     </button>
                     <button
                       onClick={() => {
-                        console.log(toBeDeleted);
+                        console.log(item);
                       }}
                     >
                       check
