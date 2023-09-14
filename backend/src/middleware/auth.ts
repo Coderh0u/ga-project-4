@@ -20,7 +20,7 @@ const authNorm = (req: Request, res: Response, next: NextFunction) => {
       if (accessSecret) {
         const decoded = jwt.verify(token, accessSecret) as any;
         req.decoded = decoded;
-        console.log("req.decoded: ", req.decoded);
+
         next();
       } else {
         res.status(403).json({ status: "error", msg: "Token Error" });
@@ -86,12 +86,10 @@ const authModerator = (req: Request, res: Response, next: NextFunction) => {
         res.status(403).json({ status: "error", msg: "Token Error" });
       }
     } catch (error) {
-      return res
-        .status(401)
-        .json({
-          status: error,
-          msg: "Unauthorised, please contact our moderators.",
-        });
+      return res.status(401).json({
+        status: error,
+        msg: "Unauthorised, please contact our moderators.",
+      });
     }
   } else {
     return res.status(403).send({ status: "error", msg: "Forbidden" });

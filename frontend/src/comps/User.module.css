@@ -69,3 +69,14 @@
   right: 10px;
   bottom: 10px;
 }
+
+.active {
+  border: 1px solid #c20f08;
+  left: 2%;
+  width: 96%;
+  margin: 0;
+  margin-bottom: 3px;
+  border-radius: 10px;
+  position: relative;
+  z-index: 100000;
+}

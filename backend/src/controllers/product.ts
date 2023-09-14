@@ -129,11 +129,6 @@ const insertProduct = async (req: Request, res: Response) => {
           .status(400)
           .json({ status: "error", msg: "Failed to add product." });
       }
-    } else {
-      res.status(403).json({
-        status: "error",
-        msg: "I hired you to be MY moderator. GET BACK TO WORK",
-      });
     }
   } catch (error: any) {
     console.error(error.stack);
@@ -161,7 +156,6 @@ const getAllProduct = async (req: Request, res: Response) => {
       }::uuid[])`;
       queryParams.push(req.body.criteria);
     }
-    // broke here
     if (req.body.filter) {
       if (req.body.criteria) {
         queryString += ` WHERE product_category.id = ANY($${
@@ -228,12 +222,12 @@ const editProduct = async (req: Request, res: Response) => {
       );
       if (req.decoded.data.id === prod.rows[0].creator_user) {
         const updatedProduct = await pool.query(
-          "UPDATE product_database SET product_name=$1, price=$2, prod_version=$3, prod_category=$4, desc=$5, product_photo=$6, is_secondhand=$7 WHERE id=$8",
+          "UPDATE product_database SET product_name=$1, price=$2, prod_category=$3, prod_desc=$4, product_photo=$5, is_secondhand=$6 WHERE id=$7",
           [
             req.body.productName || prod.rows[0].product_name,
             req.body.price || prod.rows[0].price,
             req.body.productCategory || prod.rows[0].prod_category,
-            req.body.desc || prod.rows[0].desc,
+            req.body.productDesc || prod.rows[0].desc,
             req.body.productPhoto || prod.rows[0].product_photo,
             req.body.secondHand || prod.rows[0].is_secondhand,
             req.body.productId,

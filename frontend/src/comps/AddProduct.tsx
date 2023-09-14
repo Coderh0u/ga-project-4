@@ -65,6 +65,8 @@ const AddProduct = (props: any) => {
                   setCat("");
                   setDesc("");
                   setSecondhand(false);
+                  props.setRerender(!props.rerender);
+                  console.log(props.rerender);
                 }}
               >
                 <img src="../../images/close.png" className={styles.close} />
@@ -162,7 +164,6 @@ const AddProduct = (props: any) => {
                     <button
                       onClick={() => {
                         addProduct();
-                        props.setRerender(!props.rerender)
                       }}
                       className={`col-md-3 ${
                         name && price && cat && desc

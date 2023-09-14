@@ -5,47 +5,48 @@
   width: 100%;
   height: 100vh;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .modal {
   position: fixed;
   background: white;
+  top: 50%;
+  transform: translate(0%, -50%);
+  bottom: 5vh;
+  left: 50%;
+  width: 40%;
+  z-index: 1000000;
+  border-radius: 30px;
+  height: 20%;
+  color: #c20f08;
+}
+
+.editModal {
+  position: fixed;
+  background: white;
   top: 10vh;
   bottom: 5vh;
-  left: 10%;
-  width: 80%;
+  left: 50%;
+  width: 45%;
   z-index: 99999999;
   border: 2px solid #c20f08;
   border-radius: 30px;
 }
 
-.closeButton {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  border: none;
-  background-color: white;
-}
-
-.close {
-  width: 36px;
-  height: 36px;
-}
-
 .file {
   position: absolute;
-  width: 40%;
+  width: 100%;
   left: 5%;
-  top: 10%;
-  height: 80%;
+  top: 0%;
+  height: 25%;
 }
 
 .details {
   position: absolute;
-  width: 45%;
+  width: 90%;
   right: 5%;
-  top: 10%;
+  top: 3%;
   height: 80%;
   display: flex;
   flex-direction: column;
@@ -56,11 +57,12 @@
   margin-top: 20px;
 }
 
-.submit {
+.update {
   background-color: #c20f08;
   color: white;
   border: none;
   border-radius: 10px;
+ 
 }
 
 .success {
@@ -70,11 +72,4 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: #c20f08;
-}
-
-.disabled {
-  background-color: grey;
-  color: white;
-  border: none;
-  border-radius: 10px;
 }

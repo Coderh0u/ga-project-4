@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import styles from "../authentication/Modal.module.css";
+import styles from "./ActionModal.module.css";
 const authRoot = document.querySelector<HTMLDivElement>("#auth-root")!;
 
 const DelModal = (props: any) => {
@@ -7,10 +7,7 @@ const DelModal = (props: any) => {
     <>
       {ReactDOM.createPortal(
         <div className={styles.backdrop}>
-          <div
-            className={styles.modal}
-            // style={{ height: "50%", color: "#c20f08" }}
-          >
+          <div className={styles.modal}>
             <div
               style={{
                 position: "absolute",
@@ -20,12 +17,13 @@ const DelModal = (props: any) => {
                 textAlign: "center",
               }}
             >
-              <h2>Confirm delete product?</h2>
+              <h2>Confirm delete?</h2>
               <button
                 value={props.id}
                 onClick={(e) => {
                   props.deleteProduct(e);
                   props.setDelModal(false);
+                  props.setRerender(!props.rerender);
                 }}
               >
                 Yes
