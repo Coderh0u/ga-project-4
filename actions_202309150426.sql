@@ -1,6 +1,0 @@
-INSERT INTO public.actions (action_name) VALUES
-	 ('SUSPEND USER / VENDOR'),
-	 ('EDIT PRODUCT'),
-	 ('EDIT CATEGORY'),
-	 ('DELETE PRODUCT'),
-	 ('DELETE CATEGORY');
