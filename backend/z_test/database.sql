@@ -21,7 +21,6 @@ CREATE TABLE public.product_database (
 	id uuid NOT NULL DEFAULT uuid_generate_v4(),
 	product_name varchar(255) NOT NULL,
 	price numeric(15, 2) NOT NULL,
-	prod_version varchar NULL,
 	prod_category uuid NOT NULL,
 	prod_desc text NOT NULL,
 	product_photo text NOT NULL,
@@ -32,7 +31,10 @@ CREATE TABLE public.product_database (
 	CONSTRAINT product_database_pkey PRIMARY KEY (id)
 );
 
-ALTER TABLE public.order_history ADD CONSTRAINT order_history_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.product_database(id);
+
+ALTER TABLE public.product_database ADD CONSTRAINT product_database_creator_user_fkey FOREIGN KEY (creator_user) REFERENCES public.users(id);
+ALTER TABLE public.product_database ADD CONSTRAINT product_database_creator_vendor_fkey FOREIGN KEY (creator_vendor) REFERENCES public.vendors(id);
+ALTER TABLE public.product_database ADD CONSTRAINT product_database_prod_category_fkey FOREIGN KEY (prod_category) REFERENCES public.product_category(id);
 
 
 ALTER TABLE public.product_database ADD CONSTRAINT product_database_creator_user_fkey FOREIGN KEY (creator_user) REFERENCES public.users(id);
