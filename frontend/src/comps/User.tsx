@@ -107,118 +107,119 @@ const User = () => {
         </div>
         <div className={`row ${styles.contents}`}>
           <div className={`col-md-6 ${styles.left}`}>
-            {products.map((item: any, idx: number) => (
-              <div
-                key={idx}
-                // className={`${styles.itemCard}
-                // ${delModal || editModal ? styles.active : ""}
-                // `}
-                className={styles.itemCard}
-              >
-                <div style={{ padding: "3px" }} className={styles.card}>
-                  {/* images */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <img
-                      src={item.product_photo}
-                      alt={item.product_name}
-                      style={{ maxWidth: "100%", height: "200px" }}
-                    />
-                  </div>
-                  <div className="row" style={{ height: "50px" }}>
-                    {/* product name */}
-                    <h4 className="col-sm-6">{item.product_name}</h4>
-                    {/* secondhand */}
-                    {item.is_secondhand && (
-                      <p
-                        className="col-sm-6"
-                        style={{
-                          textAlign: "right",
-                          fontSize: "15px",
-                          color: "#c20f08",
+            {products &&
+              products.map((item: any, idx: number) => (
+                <div
+                  key={idx}
+                  // className={`${styles.itemCard}
+                  // ${delModal || editModal ? styles.active : ""}
+                  // `}
+                  className={styles.itemCard}
+                >
+                  <div style={{ padding: "3px" }} className={styles.card}>
+                    {/* images */}
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <img
+                        src={item.product_photo}
+                        alt={item.product_name}
+                        style={{ maxWidth: "100%", height: "200px" }}
+                      />
+                    </div>
+                    <div className="row" style={{ height: "50px" }}>
+                      {/* product name */}
+                      <h4 className="col-sm-6">{item.product_name}</h4>
+                      {/* secondhand */}
+                      {item.is_secondhand && (
+                        <p
+                          className="col-sm-6"
+                          style={{
+                            textAlign: "right",
+                            fontSize: "15px",
+                            color: "#c20f08",
+                          }}
+                        >
+                          (Secondhand)
+                        </p>
+                      )}
+                    </div>
+                    <hr style={{ color: "#c20f08" }} />
+                    <div style={{ height: "40px" }}>
+                      {/* description */}
+                      <p>{item.prod_desc}</p>
+                    </div>
+
+                    <p>
+                      {/* price */}
+                      <span style={{ fontWeight: "bold", color: "#c20f08" }}>
+                        Price:
+                      </span>
+                      ${item.price}
+                    </p>
+                    <div className="row">
+                      {/* category */}
+                      <p className="col-sm-8">
+                        <span style={{ fontWeight: "bold", color: "#c20f08" }}>
+                          Category:
+                        </span>
+                        {item.category_name}
+                      </p>
+                    </div>
+                    <div className={styles.actionButtons}>
+                      {/* edit button */}
+                      <button
+                        onClick={() => {
+                          setEditModal(true);
+                          setEdit(item);
                         }}
                       >
-                        (Secondhand)
-                      </p>
-                    )}
-                  </div>
-                  <hr style={{ color: "#c20f08" }} />
-                  <div style={{ height: "40px" }}>
-                    {/* description */}
-                    <p>{item.prod_desc}</p>
-                  </div>
-
-                  <p>
-                    {/* price */}
-                    <span style={{ fontWeight: "bold", color: "#c20f08" }}>
-                      Price:
-                    </span>
-                    ${item.price}
-                  </p>
-                  <div className="row">
-                    {/* category */}
-                    <p className="col-sm-8">
-                      <span style={{ fontWeight: "bold", color: "#c20f08" }}>
-                        Category:
-                      </span>
-                      {item.category_name}
-                    </p>
-                  </div>
-                  <div className={styles.actionButtons}>
-                    {/* edit button */}
-                    <button
-                      onClick={() => {
-                        setEditModal(true);
-                        setEdit(item);
-                      }}
-                    >
-                      <img
-                        src="../../images/edit.png"
-                        className={styles.icon}
-                      />
-                    </button>
-                    {/* delete button */}
-                    <button
-                      onClick={() => {
-                        setDelModal(true);
-                        setDelete(item.id);
-                        console.log(item);
-                      }}
-                    >
-                      <img
-                        src="../../images/delete.png"
-                        className={styles.icon}
-                      />
-                    </button>
-                    <button
-                      onClick={() => {
-                        console.log(item);
-                      }}
-                    >
-                      check
-                    </button>
-                    {delModal && (
-                      <DelModal
-                        setDelModal={setDelModal}
-                        deleteProduct={deleteProduct}
-                        setRerender={setRerender}
-                        rerender={rerender}
+                        <img
+                          src="../../images/edit.png"
+                          className={styles.icon}
+                        />
+                      </button>
+                      {/* delete button */}
+                      <button
+                        onClick={() => {
+                          setDelModal(true);
+                          setDelete(item.id);
+                          console.log(item);
+                        }}
                       >
-                        {toBeDeleted}
-                      </DelModal>
-                    )}
-                    {editModal && (
-                      <EditModal
-                        setEditModal={setEditModal}
-                        setRerender={setRerender}
-                        rerender={rerender}
+                        <img
+                          src="../../images/delete.png"
+                          className={styles.icon}
+                        />
+                      </button>
+                      <button
+                        onClick={() => {
+                          console.log(item);
+                        }}
                       >
-                        {toBeEdited}
-                      </EditModal>
-                    )}
+                        check
+                      </button>
+                      {delModal && (
+                        <DelModal
+                          setDelModal={setDelModal}
+                          deleteProduct={deleteProduct}
+                          setRerender={setRerender}
+                          rerender={rerender}
+                        >
+                          {toBeDeleted}
+                        </DelModal>
+                      )}
+                      {editModal && (
+                        <EditModal
+                          setEditModal={setEditModal}
+                          setRerender={setRerender}
+                          rerender={rerender}
+                        >
+                          {toBeEdited}
+                        </EditModal>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
           <div className={`col-md-6 ${styles.right}`}></div>
         </div>
