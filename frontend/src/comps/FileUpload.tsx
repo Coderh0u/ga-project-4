@@ -39,7 +39,7 @@ const FileUpload = (props: any) => {
           alignItems: "center",
           height: "100%",
           border: "3px dashed rgb(117, 112, 112)",
-          padding: "20px",
+          padding: "20px",  
         }}
       >
         <p style={{ textAlign: "center" }}>{files.name}</p>

@@ -62,39 +62,39 @@ const authUser = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const authModerator = (req: Request, res: Response, next: NextFunction) => {
-  if (!("authorization" in req.headers)) {
-    return res.status(400).json({ status: "error", msg: "No token found." });
-  }
+// const authModerator = (req: Request, res: Response, next: NextFunction) => {
+//   if (!("authorization" in req.headers)) {
+//     return res.status(400).json({ status: "error", msg: "No token found." });
+//   }
 
-  const token = (req.headers["authorization"] as string).replace("Bearer ", "");
+//   const token = (req.headers["authorization"] as string).replace("Bearer ", "");
 
-  if (token) {
-    try {
-      const accessSecret = process.env.ACCESS_SECRET;
-      if (accessSecret) {
-        const decoded = jwt.verify(token, accessSecret) as any;
+//   if (token) {
+//     try {
+//       const accessSecret = process.env.ACCESS_SECRET;
+//       if (accessSecret) {
+//         const decoded = jwt.verify(token, accessSecret) as any;
 
-        // check if personnel logging in has moderator rights
-        if (decoded.role === "moderator") {
-          req.decoded = decoded;
-          next();
-        } else {
-          throw new Error();
-        }
-      } else {
-        res.status(403).json({ status: "error", msg: "Token Error" });
-      }
-    } catch (error) {
-      return res.status(401).json({
-        status: error,
-        msg: "Unauthorised, please contact our moderators.",
-      });
-    }
-  } else {
-    return res.status(403).send({ status: "error", msg: "Forbidden" });
-  }
-};
+//         // check if personnel logging in has moderator rights
+//         if (decoded.role === "moderator") {
+//           req.decoded = decoded;
+//           next();
+//         } else {
+//           throw new Error();
+//         }
+//       } else {
+//         res.status(403).json({ status: "error", msg: "Token Error" });
+//       }
+//     } catch (error) {
+//       return res.status(401).json({
+//         status: error,
+//         msg: "Unauthorised, please contact our moderators.",
+//       });
+//     }
+//   } else {
+//     return res.status(403).send({ status: "error", msg: "Forbidden" });
+//   }
+// };
 
 const authVendor = (req: Request, res: Response, next: NextFunction) => {
   if (!("authorization" in req.headers)) {
@@ -127,4 +127,9 @@ const authVendor = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { authNorm, authUser, authModerator, authVendor };
+export {
+  authNorm,
+  authUser,
+  //authModerator,
+  authVendor,
+};

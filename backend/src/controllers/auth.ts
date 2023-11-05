@@ -77,77 +77,77 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-const registerModerator = async (req: Request, res: Response) => {
-  try {
-    const auth = await pool.query(
-      "SELECT * FROM moderators WHERE username =$1",
-      [req.body.username]
-    );
-    if (auth.rowCount) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Username is already taken." });
-    }
-    const hashPwd = await bcrypt.hash(req.body.password, 12);
-    await pool.query(
-      "INSERT INTO moderators(username, hash_pwd) VALUES($1, $2)",
-      [req.body.username, hashPwd]
-    );
-    res.json({ msg: "Moderator account has been created." });
-  } catch (error: any) {
-    console.error(error.stack);
-    res.status(500).json({ error: "An error occured while creating account." });
-  }
-};
+// const registerModerator = async (req: Request, res: Response) => {
+//   try {
+//     const auth = await pool.query(
+//       "SELECT * FROM moderators WHERE username =$1",
+//       [req.body.username]
+//     );
+//     if (auth.rowCount) {
+//       return res
+//         .status(400)
+//         .json({ status: "error", msg: "Username is already taken." });
+//     }
+//     const hashPwd = await bcrypt.hash(req.body.password, 12);
+//     await pool.query(
+//       "INSERT INTO moderators(username, hash_pwd) VALUES($1, $2)",
+//       [req.body.username, hashPwd]
+//     );
+//     res.json({ msg: "Moderator account has been created." });
+//   } catch (error: any) {
+//     console.error(error.stack);
+//     res.status(500).json({ error: "An error occured while creating account." });
+//   }
+// };
 
-const loginModerator = async (req: Request, res: Response) => {
-  try {
-    // try find username in database
-    const auth = await pool.query(
-      "SELECT * FROM moderators WHERE username =$1",
-      [req.body.username]
-    );
-    if (auth.rowCount == 0) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Unauthorised login" });
-    }
-    // validate password
-    const pwdMatch = await bcrypt.compare(
-      req.body.password,
-      auth.rows[0].hash_pwd
-    );
-    if (!pwdMatch) {
-      console.log("Unauthorised Login");
-      return res
-        .status(401)
-        .json({ status: "error", msg: "Unauthorised Login" });
-    }
-    // checking if account is avtive
-    if (auth.rows[0].is_active === false) {
-      return res
-        .status(404)
-        .json({ status: "error", msg: "Account has been deactivated" });
-    }
-    const payload = {
-      data: auth.rows[0],
-      role: "moderator",
-    };
-    const accessSecret = process.env.ACCESS_SECRET;
-    if (accessSecret) {
-      const accessToken: string = jwt.sign(payload, accessSecret, {
-        expiresIn: "10d",
-        jwtid: uuidV4(),
-      });
-      res.json({ accessToken });
-    } else {
-      res.status(403).json({ status: "error", msg: "Token Error" });
-    }
-  } catch (error: any) {
-    console.error(error.stack);
-    res.status(500).json({ error: "An error occured while logging in." });
-  }
-};
+// const loginModerator = async (req: Request, res: Response) => {
+//   try {
+//     // try find username in database
+//     const auth = await pool.query(
+//       "SELECT * FROM moderators WHERE username =$1",
+//       [req.body.username]
+//     );
+//     if (auth.rowCount == 0) {
+//       return res
+//         .status(400)
+//         .json({ status: "error", msg: "Unauthorised login" });
+//     }
+//     // validate password
+//     const pwdMatch = await bcrypt.compare(
+//       req.body.password,
+//       auth.rows[0].hash_pwd
+//     );
+//     if (!pwdMatch) {
+//       console.log("Unauthorised Login");
+//       return res
+//         .status(401)
+//         .json({ status: "error", msg: "Unauthorised Login" });
+//     }
+//     // checking if account is avtive
+//     if (auth.rows[0].is_active === false) {
+//       return res
+//         .status(404)
+//         .json({ status: "error", msg: "Account has been deactivated" });
+//     }
+//     const payload = {
+//       data: auth.rows[0],
+//       role: "moderator",
+//     };
+//     const accessSecret = process.env.ACCESS_SECRET;
+//     if (accessSecret) {
+//       const accessToken: string = jwt.sign(payload, accessSecret, {
+//         expiresIn: "10d",
+//         jwtid: uuidV4(),
+//       });
+//       res.json({ accessToken });
+//     } else {
+//       res.status(403).json({ status: "error", msg: "Token Error" });
+//     }
+//   } catch (error: any) {
+//     console.error(error.stack);
+//     res.status(500).json({ error: "An error occured while logging in." });
+//   }
+// };
 
 const registerVendor = async (req: Request, res: Response) => {
   try {
@@ -287,8 +287,8 @@ const deactivateAcc = async (req: Request, res: Response) => {
 export {
   registerUser,
   loginUser,
-  registerModerator,
-  loginModerator,
+  // registerModerator,
+  // loginModerator,
   registerVendor,
   loginVendor,
   deactivateAcc,
