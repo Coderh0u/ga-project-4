@@ -9,9 +9,9 @@ const fetchData = useFetch();
 
 const LoginPage = (props: any) => {
   const auth = useContext(AuthContext);
-  const [role, setRole] = useState("user");
-  const [username, setUsername] = useState("plswork");
-  const [password, setPassword] = useState("password");
+  const [role, setRole] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error1, setError1] = useState("");
   const [error2, setError2] = useState("");
   const authRoot = document.querySelector<HTMLDivElement>("#auth-root")!;
